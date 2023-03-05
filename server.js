@@ -20,7 +20,7 @@ const connectDB = require('./db/connect.js');
 
 // routers
 const authRouter = require('./routes/authRoutes.js');
-
+const productRouter = require('./routes/productRoutes.js')
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js');
@@ -51,7 +51,7 @@ app.use(cookieParser());
 
 
 app.use('/api/v1/auth', authRouter);
-
+app.use('/api/v1/products', authenticateUser, productRouter)
 
 // only when ready to deploy
 /*

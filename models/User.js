@@ -31,8 +31,8 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         unique: true,
         required: [true, 'Pls provide a username'],
+        maxlength: [20, 'Userame can not be more than 20 characters'],
         minlength: 3,
-        maxlength: 15
     },
     password: {
         type: String,
@@ -41,18 +41,12 @@ const UserSchema = new mongoose.Schema({
     },
     firstName: {
         type: String,
-        minlength: 5,
-        maxlength: 25
     },
     lastName: {
         type: String,
-        minlength: 5,
-        maxlength: 25
     },
     phoneNo: {
         type: Number,
-        maxlength: 14,
-        minlength: 14
     },
     address: {
         type: String,
