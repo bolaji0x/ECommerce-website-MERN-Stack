@@ -1,18 +1,23 @@
 import React from 'react'
 import { BiPencil, BiTrashAlt } from "react-icons/bi";
-const Product = ({images, title, description, category, price}) => {
+import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/appContext';
+const Product = ({_id, images, title, description, category, price}) => {
+  const { deleteProduct } = useAppContext()
   return (
     <div className='each-pl'>
-     <img className='pl-img' src={images[0].url} alt={title} />
+     <Link to={`/product/${_id}`}><img className='pl-img' src={images[0].url} alt={title} /></Link>
         <div className='eachpl-content'>
             <h3 className='pl-title'>{title}</h3>
-            <p className='pl-price'>${price}.00</p>      
+            <p className='pl-price'>${price}.00</p>    
             <div className='plbtn-container'>
-                  <button className='pl-btn'>
-                    <BiPencil className='edit-icon' />
-                    <label>Edit</label>
-                  </button>
-                  <button className='pl-btn del-btn'>
+                  <Link className='editbtn-link' to={`/${_id}/edit-product`}>
+                    <button type='button' className='pl-btn'>
+                      <BiPencil className='edit-icon' />
+                      <label>Edit</label>
+                    </button>
+                  </Link>
+                  <button type='button' onClick={() => deleteProduct(_id)} className='pl-btn del-btn'>
                     <BiTrashAlt className='del-icon' />
                     <label>Delete</label>
                   </button>

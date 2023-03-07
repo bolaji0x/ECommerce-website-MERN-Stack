@@ -154,8 +154,8 @@ const updateProduct = async (req, res) => {
     useFindAndModify: false,
   });
 
-  res.status(200).json({
-    product,
+  res.status(StatusCodes.OK).json({
+    product
   });
 }
 

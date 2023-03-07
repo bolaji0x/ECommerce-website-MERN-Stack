@@ -1,36 +1,51 @@
-
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Alert, FormRow, FormRowSelect } from '../../components'
 import { BiCloudUpload } from "react-icons/bi";
 import { useAppContext } from '../../context/appContext';
+import { useParams } from 'react-router-dom'
 
-const initialState = {
-  title: '',
-  description: '',
-  price: 0,
-  category: 'other',
-  categoryType: ['clothes', 'smartphones', 'electronics', 'books', 'sports', 'kids item', 'automobiles','home interior', 'other']
-  
-}
 
-const AddProduct = () => {
+const EditProduct = () => {
+  const {id} = useParams()
   const {
     isLoading,
     showAlert,
-    createProduct
+    updateProduct
   } = useAppContext()
 
-  const [values, setValues] = useState(initialState);
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [price, setPrice] = useState(0)
+  const [category, setCategory] = useState('other')
+  const [categoryType, setCategoryType] = useState(['clothes', 'smartphones', 'electronics', 'books', 'sports', 'kids item', 'automobiles','home interior', 'other'])
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`/api/v1/products/${id}`)
+        const {product} = data
+        console.log(product)
+        setTitle(product.title)
+        setDescription(product.description)
+        setPrice(product.price)
+        setCategory(product.category)
+        setImagesPreview(product.images[0].url)
+      } catch (error) {
+        console.log(error)
+        setCategoryType([])
+      }
+    };
+    fetchData();
+}, [id])
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-      const { title, description,
-      price, category } = values
+      
       const myForm = new FormData();  
       
       myForm.set("title", title);
@@ -40,12 +55,12 @@ const AddProduct = () => {
       images.forEach((image) => {
         myForm.append("images", image);
       });
-      createProduct(myForm);
+      updateProduct(id, myForm);
       
       
   }
   
-  const createProductImagesChange = (e) => {
+  const updateProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
 
     setImages([]);
@@ -68,15 +83,15 @@ const AddProduct = () => {
   return (
     <>
       <section className='bd-container'>
-        <h1 className='page-title'>Create Product</h1>
+        <h1 className='page-title'>Edit Product</h1>
         <form onSubmit={handleSubmit} encType='multipart/form-data'  className='form-section'>
         {showAlert && <Alert />}
           <FormRow 
             type='text'
             name='title'
             labelText='Product title'
-            value={values.title}
-            handleChange={handleChange}
+            value={title}
+            handleChange={(e) => setTitle(e.target.value)}
           />
 
           <div className='form-item'>
@@ -85,8 +100,8 @@ const AddProduct = () => {
             className='caption-input'
             required
             name="description"
-            value={values.description}
-            onChange={handleChange}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
             <label className="">Full description</label>
           </div>
@@ -96,7 +111,7 @@ const AddProduct = () => {
           <div className=''>
              <h3 className='image-label'>Images</h3>
              <div className='upload-img-btn'>
-                <div><img src={imagesPreview} className='upload-img' alt={values.title} /></div>
+                <div><img src={imagesPreview} className='upload-img' alt={title} /></div>
                 <div className='upload-btn-section'>
                   <label className='upload-btn-cont' htmlFor='files'>
                     <BiCloudUpload className='cloud-btn' />
@@ -109,7 +124,7 @@ const AddProduct = () => {
                     className='upload-btn'
                     name="photo"
                     accept=".png, .jpg, .jpeg"
-                    onChange={createProductImagesChange} 
+                    onChange={updateProductImagesChange} 
                     multiple 
                     
                   />
@@ -123,26 +138,26 @@ const AddProduct = () => {
               type='number'
               name='price'
               labelText='Price'
-              value={values.price}
-              handleChange={handleChange}
+              value={price}
+              handleChange={(e) => setPrice(e.target.value)}
             />
             <FormRowSelect
               name='category'
               labelText='category'
-              value={values.category}
-              handleChange={handleChange}
-              list={values.categoryType}
+              value={category}
+              handleChange={(e) => setCategory(e.target.value)}
+              list={categoryType}
             />
             <div className='publish-cont'>
               <input type='checkbox' />
               <label className='publish-text'>Publish on site</label>
             </div>
-            <button disabled={isLoading} type='submit' className='login-btn'>Submit item</button>
+            <button disabled={isLoading} type='submit' className='login-btn'>Update item</button>
         </form>
       </section>
     </>
   )
 }
 
-export default AddProduct
+export default EditProduct
 

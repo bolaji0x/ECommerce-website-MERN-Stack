@@ -31,7 +31,7 @@ const ProductContainer = () => {
     <>
     <div className='pl-content'>
       {products.map((product) => {
-        return (<Link className='pl-link' key={product._id} to={`/product/${product._id}`}><Product key={product._id} {...product} /></Link>)
+        return (<Link className='pl-link' key={product._id} ><Product key={product._id} {...product} /></Link>)
       })}
     </div>
     

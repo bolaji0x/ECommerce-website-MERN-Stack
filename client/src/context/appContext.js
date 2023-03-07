@@ -19,6 +19,10 @@ import {
   CREATE_PRODUCT_ERROR,
   GET_AUTHPRODUCTS_BEGIN,
   GET_AUTHPRODUCTS_SUCCESS,
+  DELETE_PRODUCT_BEGIN,
+  UPDATE_PRODUCT_BEGIN,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_ERROR,
  
 
 } from './actions'
@@ -40,7 +44,8 @@ const initialState = {
   price: 0,
   
   
-  
+  sort: 'latest',
+  page: 1,
   showSidebar: false,
   product: null,
   products: [],
@@ -168,6 +173,33 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  const updateProduct = async (id, productData) => {
+    dispatch({ type: UPDATE_PRODUCT_BEGIN });
+    try {
+      await authFetch.put(
+        `/products/${id}`,
+        productData
+      );
+  
+      dispatch({ type: UPDATE_PRODUCT_SUCCESS });
+    } catch (error) {
+      if (error.response.status !== 401) return;
+      dispatch({
+        type: UPDATE_PRODUCT_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert()
+  }
+
+  const deleteProduct = async (productId) => {
+    dispatch({ type: DELETE_PRODUCT_BEGIN })
+    try {
+      await authFetch.delete(`/products/${productId}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
   const getCurrentUser = async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
@@ -202,7 +234,9 @@ const AppProvider = ({ children }) => {
         clearValues,
         toggleSidebar,
         createProduct,
-        getProducts
+        getProducts,
+        updateProduct,
+        deleteProduct
     
       }}
     >

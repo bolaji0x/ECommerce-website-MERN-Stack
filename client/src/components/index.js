@@ -8,6 +8,7 @@ import Sidebar from './Sidebar'
 import Logo from './Logo'
 import Dashboard from './Dashboard'
 import ProductContainer from './ProductContainer'
+import HomeNavbar from './HomeNavbar'
 export { 
     Alert,
     FormRow,
@@ -18,5 +19,6 @@ export {
     Sidebar,
     Logo,
     Dashboard,
-    ProductContainer
+    ProductContainer,
+    HomeNavbar
 }
