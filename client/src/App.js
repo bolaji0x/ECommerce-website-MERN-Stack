@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import { Register, Error, ProtectedRoute } from './pages'
-import { SharedLayout, Home, AddProduct, AllProducts, EdiProduct } from './pages/dashboard'
-import { HomeNavbar } from './components'
+import { SharedLayout, Home, AddProduct, AdminProducts, EditProduct, AllProducts, SingleProduct } from './pages/dashboard'
+
 function App() {
   return (
     <Router>
@@ -14,15 +15,15 @@ function App() {
           </ProtectedRoute>
           }
         >
-          <Route index element={<Home/>} />
+          
+          <Route path='admin' element={<Home/>} />
           <Route path='add-product' element={<AddProduct />} />
-          <Route path='all-products' element={<AllProducts />} />
-          <Route path='/:id/edit-product' element={<EdiProduct />} />
+          <Route path='all-products' element={<AdminProducts />} />
+          <Route path='/:id/edit-product' element={<EditProduct />} />
         </Route>
         <Route path='/register' element={<Register />} />
-        <Route path='/home' element={<HomeNavbar />} />
-        
-        
+        <Route path='/all' element={<AllProducts/>} />
+        <Route path='/product/:id' element={<SingleProduct/>} />
         <Route path='*' element={<Error />} />
       </Routes>
     </Router>

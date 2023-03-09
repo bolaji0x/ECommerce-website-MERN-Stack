@@ -1,12 +1,16 @@
 import Home from "./Home";
 import SharedLayout from "./SharedLayout";
 import AddProduct from "./AddProduct";
+import AdminProducts from './AdminProducts'
+import EditProduct from "./EditProduct";
 import AllProducts from './AllProducts'
-import EdiProduct from "./EditProduct";
+import SingleProduct from "./SingleProduct";
 export { 
     Home, 
     SharedLayout,
     AddProduct,
+    AdminProducts,
+    EditProduct,
     AllProducts,
-    EdiProduct 
+    SingleProduct 
 }

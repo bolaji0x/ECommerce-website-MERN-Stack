@@ -3,12 +3,14 @@ import FormRow from './FormRow'
 import FormRowSelect from './FormRowSelect'
 import Loading from './Loading'
 import TestImg from './TestImg'
-import Navbar from './Navbar'
+import AdminNavbar from './AdminNavbar'
 import Sidebar from './Sidebar'
 import Logo from './Logo'
 import Dashboard from './Dashboard'
+import AdminProductContainer from './AdminProductContainer'
+import Navbar from './Navbar'
 import ProductContainer from './ProductContainer'
-import HomeNavbar from './HomeNavbar'
+import SingleProductDetail from './SingleProductDetail'
 export { 
     Alert,
     FormRow,
@@ -19,6 +21,8 @@ export {
     Sidebar,
     Logo,
     Dashboard,
+    AdminProductContainer,
+    AdminNavbar,
     ProductContainer,
-    HomeNavbar
+    SingleProductDetail
 }

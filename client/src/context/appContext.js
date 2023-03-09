@@ -23,6 +23,11 @@ import {
   UPDATE_PRODUCT_BEGIN,
   UPDATE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_ERROR,
+  GET_PRODUCTS_BEGIN,
+  GET_PRODUCTS_SUCCESS,
+  GET_SINGLEPRODUCT_BEGIN,
+  GET_SINGLEPRODUCT_SUCCESS,
+  GET_SINGLEPRODUCT_ERROR,
  
 
 } from './actions'
@@ -149,8 +154,53 @@ const AppProvider = ({ children }) => {
     }
     clearAlert()
   }
-  
+
   const getProducts = async () => {
+    const {sort, page} = state
+    let url = `products/all?limit=${page*6}&sort=${sort}`
+
+    dispatch({ type: GET_PRODUCTS_BEGIN })
+  
+    try {
+      const { data } = await axios.get(`/api/v1/${url}`)
+      const { products, totalProducts } = data
+      console.log(products)
+      dispatch({
+        type: GET_PRODUCTS_SUCCESS,
+        payload: {
+          products,
+          totalProducts
+        },
+      })
+    } catch (error) {
+        logoutUser();
+    }
+    clearAlert()
+  }
+
+  const getSingleProduct = async (id) => {
+    dispatch({ type: GET_SINGLEPRODUCT_BEGIN })
+    try {
+      const { data } = await axios.get(`/api/v1/products/${id}`)
+      const { product } = data
+      console.log(product)
+      dispatch({
+        type: GET_SINGLEPRODUCT_SUCCESS,
+        payload: {
+          product,
+        },
+      })
+    } catch (error) {
+      if (error.response.status === 401) return
+        dispatch({
+          type: GET_SINGLEPRODUCT_ERROR,
+          payload: { msg: error.response.data.msg }
+        })
+    }
+    clearAlert()
+  }
+  
+  const getUserProducts = async () => {
     const {sort, page} = state
     let url = `/products?limit=${page*6}&sort=${sort}`
 
@@ -235,6 +285,8 @@ const AppProvider = ({ children }) => {
         toggleSidebar,
         createProduct,
         getProducts,
+        getSingleProduct,
+        getUserProducts,
         updateProduct,
         deleteProduct
     

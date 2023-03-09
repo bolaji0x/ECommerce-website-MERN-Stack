@@ -10,6 +10,11 @@ import {
     GET_AUTHPRODUCTS_SUCCESS, 
     GET_CURRENT_USER_BEGIN, 
     GET_CURRENT_USER_SUCCESS, 
+    GET_PRODUCTS_BEGIN, 
+    GET_PRODUCTS_SUCCESS, 
+    GET_SINGLEPRODUCT_BEGIN, 
+    GET_SINGLEPRODUCT_ERROR, 
+    GET_SINGLEPRODUCT_SUCCESS, 
     HANDLE_CHANGE, 
     LOGOUT_USER, 
     SETUP_USER_BEGIN,
@@ -111,6 +116,39 @@ const reducer = (state, action) => {
       }
     }
     if (action.type === CREATE_PRODUCT_ERROR) {
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'danger',
+        alertText: action.payload.msg,
+      }
+    }
+
+    if (action.type === GET_PRODUCTS_BEGIN) {
+      return { ...state, isLoading: true, showAlert: false }
+    }
+    if (action.type === GET_PRODUCTS_SUCCESS) {
+      return {
+        ...state,
+        isLoading: false,
+        products: action.payload.products,
+        totalProducts: action.payload.totalProducts
+      }
+    }
+
+    if (action.type === GET_SINGLEPRODUCT_BEGIN) {
+      return { ...state, isLoading: true, showAlert: false }
+    }
+    if (action.type === GET_SINGLEPRODUCT_SUCCESS) {
+      return {
+        ...state,
+        isLoading: false,
+        product: action.payload.product
+      }
+    }
+  
+    if (action.type === GET_SINGLEPRODUCT_ERROR) {
       return {
         ...state,
         isLoading: false,
