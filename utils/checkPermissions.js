@@ -1,4 +1,4 @@
-const { UnAuthenticatedError } = require('../errors/index.js')
+const { UnAuthenticatedError} = require('../errors/index.js')
 
 const checkPermissions = (requestUser, resourceUserId) => {
   if (requestUser.userId === resourceUserId.toString()) return

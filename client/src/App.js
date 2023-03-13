@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Register, Error, ProtectedRoute } from './pages'
 import { SharedLayout, Home, AddProduct, AdminProducts, EditProduct, AllProducts, SingleProduct } from './pages/dashboard'
 
+import { Order, OrderDetails } from './components'
+
 function App() {
   return (
     <Router>
@@ -24,6 +26,9 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/all' element={<AllProducts/>} />
         <Route path='/product/:id' element={<SingleProduct/>} />
+
+        <Route path='/order' element={<OrderDetails />} />
+
         <Route path='*' element={<Error />} />
       </Routes>
     </Router>

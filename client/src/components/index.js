@@ -11,6 +11,8 @@ import AdminProductContainer from './AdminProductContainer'
 import Navbar from './Navbar'
 import ProductContainer from './ProductContainer'
 import SingleProductDetail from './SingleProductDetail'
+import Order from './Order'
+import OrderDetails from './OrderDetails'
 export { 
     Alert,
     FormRow,
@@ -24,5 +26,7 @@ export {
     AdminProductContainer,
     AdminNavbar,
     ProductContainer,
-    SingleProductDetail
+    SingleProductDetail,
+    Order,
+    OrderDetails
 }
