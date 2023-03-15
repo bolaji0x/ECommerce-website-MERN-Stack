@@ -66,43 +66,51 @@ const OrderDetails = () => {
           </div>
 
         <div className='orderb-flex'>
-          <table className='pqut-table'>
-              <thead className='order-header'>
-                <tr>
-                  <th className='order-title lhtc'>Product</th>
-                  <th className='order-title lhtc'>Quantity</th>
-                  <th className='order-title'>Unit Price</th>
-                  <th className='order-title'>Total</th>
-                </tr>         
-              </thead>
+          <div>
+            <table className='orderb-table'>
+                <thead >
+                  <tr className='order-header'>
+                    <th className='order-title lhtc'>Product</th>
+                    <th className='order-title lhtc'>Quantity</th>
+                    <th className='order-title lhtc'>Unit Price</th>
+                    <th className='order-title'>Total</th>
+                  </tr>         
+                </thead>
+                
+                <tbody className='order-content'>
+                  <tr>
+                    
+                    <td className='order-btext lhtc oc-btn'><TestImg /> Supreme helinox chair one</td>
+                    <td className='order-atext lhtc'>2</td>
+                    <td className='order-atext'>$43.50</td>
+                    <td className='order-atext'>$87.00</td>
+                  </tr>
+                </tbody>
+        
+            </table>
               
-              <tbody className='order-content'>
-                  <td className='order-atext lhtc'><TestImg /></td>
-                  <td className='order-btext lhtc oc-btn'>Supreme helinox chair one</td>
-                  <td className='order-atext'>2</td>
-                  <td className='order-atext'>$43.50</td>
-                  <td className='order-atext'>$87.00</td>
-              </tbody>
-              
-              <div className='total-content'>
+            <div className='total-content'>
+              <div className='bloc'>
                 <h3 className='tc-text'><span className='tc-title'>Subtotal</span>$972.35</h3>
                 <h3 className='tc-text'><span className='tc-title'>Shipping cost</span>$10.00</h3>
-                <h3 className='tc-text'><span className='tc-title'>Subtotal</span>$983.00</h3>
-              </div>
-            </table>
+                <h3 className='tc-text'><span className='tc-title'>Subtotal</span>$983.00</h3></div>
+            </div>
+          </div>
 
-            <div className='pinfo-content'>
+          <div className='pinfo-content'>
                 <div>
                     <h3 className='p-info'>Payment info</h3>
                     <p className='pinfo-text'><span  className='pinfot'>Business name</span>: Master Card, inc</p>
                     <p className='pinfo-text'><span className='pinfot'>Phone</span>: +234 1800 000</p>
                 </div>
+                {/* 
                 <div className='note-info'>
                     <label className='ntitle'>Notes</label>
                     <textarea placeholder='Type here' className='ninput'></textarea>
                     <button className='saven-btn' type='submit'>Save note</button>
                 </div>
-            </div>
+                */}
+          </div>
         </div>
 
         </div>

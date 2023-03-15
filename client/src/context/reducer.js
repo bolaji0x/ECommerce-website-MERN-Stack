@@ -102,6 +102,7 @@ const reducer = (state, action) => {
       };
     }
 
+
     if (action.type === CREATE_PRODUCT_BEGIN) {
       return { ...state, isLoading: true }
     }

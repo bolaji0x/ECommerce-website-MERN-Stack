@@ -5,6 +5,7 @@ import AdminProducts from './AdminProducts'
 import EditProduct from "./EditProduct";
 import AllProducts from './AllProducts'
 import SingleProduct from "./SingleProduct";
+import AdminOrders from "./AdminOrders";
 export { 
     Home, 
     SharedLayout,
@@ -12,5 +13,6 @@ export {
     AdminProducts,
     EditProduct,
     AllProducts,
-    SingleProduct 
+    SingleProduct,
+    AdminOrders 
 }

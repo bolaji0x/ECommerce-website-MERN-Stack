@@ -1,16 +1,10 @@
 import React from 'react'
 import { BiArrowToBottom, BiDotsHorizontalRounded } from 'react-icons/bi'
-import { Sidebar, AdminNavbar } from '../components'
-const Order = () => {
+
+const Orders = () => {
   return (
-    <div className='homepage'>
-      <AdminNavbar />
-      <Sidebar />
-      <section className='bd-container'>
-        <div className='order-head-title'>
-          <h1 className='page-title'>Order</h1>
-          <button className='create-order-btn'>Create new</button>
-        </div>
+    
+      
         <div className='form-section order-section'>
           <div className='order-search-head'>
             <input 
@@ -52,9 +46,9 @@ const Order = () => {
             </table>
           </div>
         </div>
-      </section>
-    </div>
+      
+    
   )
 }
 
-export default Order
+export default Orders

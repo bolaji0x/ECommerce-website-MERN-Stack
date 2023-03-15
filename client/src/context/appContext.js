@@ -28,6 +28,7 @@ import {
   GET_SINGLEPRODUCT_BEGIN,
   GET_SINGLEPRODUCT_SUCCESS,
   GET_SINGLEPRODUCT_ERROR,
+  
  
 
 } from './actions'

@@ -11,7 +11,7 @@ import AdminProductContainer from './AdminProductContainer'
 import Navbar from './Navbar'
 import ProductContainer from './ProductContainer'
 import SingleProductDetail from './SingleProductDetail'
-import Order from './Order'
+import Orders from './Orders'
 import OrderDetails from './OrderDetails'
 export { 
     Alert,
@@ -27,6 +27,6 @@ export {
     AdminNavbar,
     ProductContainer,
     SingleProductDetail,
-    Order,
+    Orders,
     OrderDetails
 }
