@@ -28,10 +28,23 @@ import {
   GET_SINGLEPRODUCT_BEGIN,
   GET_SINGLEPRODUCT_SUCCESS,
   GET_SINGLEPRODUCT_ERROR,
+  REMOVE_PRODUCT,
+  CLEAR_CART,
+  TOGGLE_AMOUNT,
+  GET_TOTALS,
+  TOGGLE_CART,
+  CREATE_ORDER_SUCCESS,
+  CREATE_ORDER_ERROR,
+  CREATE_ORDER_BEGIN,
+  ADDTOCART_BEGIN,
+  ADDTOCART_SUCCESS,
+  SET_CART,
+  REMOVE_ITEM,
   
  
 
 } from './actions'
+
 
 
 const initialState = {
@@ -43,6 +56,8 @@ const initialState = {
   user: null,
   userAddress: '',
 
+  
+
 
   image: '',
   title: '',
@@ -53,9 +68,13 @@ const initialState = {
   sort: 'latest',
   page: 1,
   showSidebar: false,
+  showCart: false,
   product: null,
   products: [],
-  totalProducts: 0
+  totalProducts: 0,
+
+  order: null,
+  cart: JSON.parse(localStorage.getItem('cart')) || [],
 
 }
 const AppContext = React.createContext()
@@ -96,12 +115,16 @@ const AppProvider = ({ children }) => {
     }, 3000)
   }
 
+
   const logoutUser = async () => {
     await authFetch.get('/auth/logout');
     dispatch({ type: LOGOUT_USER });
   };
   const toggleSidebar = () => {
     dispatch({ type: TOGGLE_SIDEBAR });
+  };
+  const toggleCart = () => {
+    dispatch({ type: TOGGLE_CART });
   };
 
   const handleChange = ({ name, value }) => {
@@ -111,6 +134,15 @@ const AppProvider = ({ children }) => {
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES })
   }
+
+
+
+
+
+
+
+
+
 
 
   const setupUser = async ({currentUser, endPoint, alertText}) => {
@@ -243,6 +275,11 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  const clearCart = () => {
+    dispatch({ type: CLEAR_CART })
+  }
+
+
   const deleteProduct = async (productId) => {
     dispatch({ type: DELETE_PRODUCT_BEGIN })
     try {
@@ -251,6 +288,52 @@ const AppProvider = ({ children }) => {
       console.log(error)
     }
   }
+
+  const createOrder = async ({currentOrder}) => {
+    dispatch({ type: CREATE_ORDER_BEGIN })
+    try {
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+      const { data } = await authFetch.post('/orders', currentOrder, config)
+      const {order} = data
+      dispatch({ type: CREATE_ORDER_SUCCESS, payload: {order}})
+      
+    } catch (error) {
+      if (error.response.status === 401) return
+      dispatch({
+        type: CREATE_ORDER_ERROR,
+        payload: { msg: error.response.data.msg },
+      })
+    }
+    clearAlert()
+  }
+
+
+  const addItemToCart = async (id) => {
+    dispatch({ type: ADDTOCART_BEGIN })
+    try {
+      const { data } = await axios.get(`/api/v1/products/${id}`)
+
+      const {product} = data
+      dispatch({
+        type: ADDTOCART_SUCCESS,
+        payload: { cart: product },
+      })
+      
+    } catch (error) {
+      console.log(error)
+    }
+    clearAlert()
+  }
+
+  
+  const removeItemFromCart = (id) => {
+    dispatch({ type: REMOVE_ITEM, payload: {id} })
+    console.log(id)
+  }
+
+  
   
   const getCurrentUser = async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
@@ -267,6 +350,15 @@ const AppProvider = ({ children }) => {
       logoutUser();;
     }
   };
+
+
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+  
+  
 
   useEffect(() => {
     getCurrentUser();
@@ -289,7 +381,12 @@ const AppProvider = ({ children }) => {
         getSingleProduct,
         getUserProducts,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        clearCart,
+        toggleCart,
+        createOrder,
+        addItemToCart,
+        removeItemFromCart
     
       }}
     >

@@ -5,14 +5,16 @@ import { AiOutlineMenu  } from "react-icons/ai";
 import { BiX, BiCart, BiBox } from "react-icons/bi";
 import { useAppContext } from '../context/appContext';
 import items from './menu'
+import CartContainer from './CartContainer';
 const allCategories = ['all', ...new Set(items.map((item) => item.category))];
 const Navbar = () => {
-    const { toggleSidebar, showSidebar, } = useAppContext()
+    const { toggleSidebar, showSidebar, amount, toggleCart, getProducts, cart} = useAppContext()
     const [categories, setCategories] = useState(allCategories);
 
     
     useEffect(() => {
         setCategories(allCategories)
+        
     }, [])
   return (
     <>
@@ -27,18 +29,19 @@ const Navbar = () => {
                     <li><Link className='eachn-link'>Help</Link></li>
                     <li><Link to='/' className='eachn-link'>Login / Signup</Link></li>
                 </ul>
-                <button className='hb-btn'>
-                    <FaAd className='hn-icon' />
+                <button onClick={toggleCart} className='hb-btn'>
+                    <BiCart className='hn-icon' />
                     <h4 className='hn-text'>My Cart</h4>
-                    <p className='hn-amount'>0</p>
+                    <p className='hn-amount'>{cart.length}</p>
                 </button>
+                <CartContainer />
             </nav>
             <div className='mobilenavbtn-cont'>
                 
                 <button onClick={toggleSidebar}>{!showSidebar ? <AiOutlineMenu className='hn-sidebarbtn' /> : <BiX className='hn-sidebarbtn hxbtn' />}</button>
                 <div className='mobilebtn-cont'>
                     <button><BiBox className='mobilenavbtn' /></button>
-                    <button><BiCart className='mobilenavbtn' /></button>
+                    <button onClick={toggleCart}><BiCart className='mobilenavbtn' /></button>
                 </div>
             </div>
         </header>

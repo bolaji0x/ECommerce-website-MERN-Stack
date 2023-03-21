@@ -30,7 +30,7 @@ const ProductContainer = () => {
       <>
       <div className='hp-content'>
         {products.map((product) => {
-          return (<Link className='pl-link' key={product._id} ><Product key={product._id} {...product} /></Link>)
+          return (<Link key={product._id} className='pl-link'><Product key={product._id} {...product} /></Link>)
         })}
       </div>
       

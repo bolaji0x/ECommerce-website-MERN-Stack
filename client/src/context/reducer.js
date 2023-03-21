@@ -1,6 +1,12 @@
 import { 
+  ADDTOCART_BEGIN,
+    ADDTOCART_SUCCESS,
     CLEAR_ALERT, 
+    CLEAR_CART, 
     CLEAR_VALUES, 
+    CREATE_ORDER_BEGIN, 
+    CREATE_ORDER_ERROR, 
+    CREATE_ORDER_SUCCESS, 
     CREATE_PRODUCT_BEGIN, 
     CREATE_PRODUCT_ERROR, 
     CREATE_PRODUCT_SUCCESS, 
@@ -15,11 +21,17 @@ import {
     GET_SINGLEPRODUCT_BEGIN, 
     GET_SINGLEPRODUCT_ERROR, 
     GET_SINGLEPRODUCT_SUCCESS, 
+    GET_TOTALS, 
     HANDLE_CHANGE, 
     LOGOUT_USER, 
+    REMOVE_ITEM, 
+    REMOVE_PRODUCT, 
     SETUP_USER_BEGIN,
     SETUP_USER_ERROR,
     SETUP_USER_SUCCESS,
+    SET_CART,
+    TOGGLE_AMOUNT,
+    TOGGLE_CART,
     TOGGLE_SIDEBAR,
     UPDATE_PRODUCT_BEGIN,
     UPDATE_PRODUCT_ERROR,
@@ -99,6 +111,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         showSidebar: !state.showSidebar,
+      };
+    }
+    if (action.type === TOGGLE_CART) {
+      return {
+        ...state,
+        showCart: !state.showCart,
       };
     }
 
@@ -205,6 +223,72 @@ const reducer = (state, action) => {
         alertText: 'Product Deleted!', 
       }
     }
+
+    
+
+    
+
+
+
+
+    if (action.type === CREATE_ORDER_BEGIN) {
+      return { ...state, isLoading: true }
+    }
+    if (action.type === CREATE_ORDER_SUCCESS) {
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        order: action.payload.order,
+        alertType: 'success',
+        alertText: 'Order added',
+      }
+    }
+    if (action.type === CREATE_ORDER_ERROR) {
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'danger',
+        alertText: action.payload.msg,
+      }
+    }
+
+
+    if (action.type === ADDTOCART_BEGIN) {
+      return { ...state }
+    }
+    
+    if (action.type === ADDTOCART_SUCCESS) {
+      return {
+        ...state,
+        cart: [...state.cart, action.payload.cart],
+        showAlert: true,
+        alertType: 'success',
+    
+      }  
+    }
+
+    if(action.type === REMOVE_ITEM) {
+      return {
+        ...state, 
+        cart: state.cart.filter((item) => item._id !== action.payload.id)
+      }
+    }
+
+    if(action.type === CLEAR_CART) {
+      return {
+        ...state,
+       isLoading: false, 
+       cart: []
+      }
+    }
+    
+
+    
+
+    
+
 
     if (action.type === GET_CURRENT_USER_BEGIN) {
         return { ...state, userLoading: true, showAlert: false };
