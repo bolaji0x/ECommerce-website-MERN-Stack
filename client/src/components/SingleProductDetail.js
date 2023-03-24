@@ -8,7 +8,9 @@ const SingleProductDetail = () => {
     const {
         isLoading, 
         product, 
-        getSingleProduct
+        getSingleProduct,
+        toggleAmount,
+        toggleCart
     } = useAppContext()
 
     useEffect(() => {
@@ -18,7 +20,7 @@ const SingleProductDetail = () => {
     if (!product) {
         return <h1 className='no-post'>Product Not Found</h1>
     } else {
-        const {title, description, images} = product
+        const {title, description, images, amount} = product
         return (
             <>
                 
@@ -33,13 +35,13 @@ const SingleProductDetail = () => {
                             <div className='qty-cont'>
                                 <p className='qty-text'>Quantity:</p>
                                 <div className='amtbtn-container'>
-                                    <button className='amtbtn'>-</button>
-                                    <p className='amt-text amtbtn'>1</p>
-                                    <button className='amtbtn'>+</button>
+                                    <button onClick={() => toggleAmount(id, 'dec')} className='amtbtn'>-</button>
+                                    <p className='amt-text amtbtn'>{amount + 1}</p>
+                                    <button onClick={() => toggleAmount(id, 'inc')} className='amtbtn'>+</button>
                                 </div>
                             </div>
         
-                            <button disabled={isLoading}  className='buy-btn'>Buy Now</button>
+                            <button onClick={toggleCart} disabled={isLoading}  className='buy-btn'>Buy Now</button>
                         </div>
                     </div>
                 

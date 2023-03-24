@@ -2,7 +2,7 @@ import React from 'react'
 import { BiHeart, BiXCircle } from 'react-icons/bi'
 import { useAppContext } from '../context/appContext'
 const CartItem = ({_id, title, images, price, amount}) => {
-  const { removeItemFromCart } = useAppContext()
+  const { removeItemFromCart, toggleAmount } = useAppContext()
   return (
     <>
 
@@ -13,15 +13,15 @@ const CartItem = ({_id, title, images, price, amount}) => {
               <img src={images[0].url} alt={title} className='cart-item-img' />
               <div className='carti-grid'>
                 <h3 className='ci-name'>{title}</h3>
-                <p className='ci-price'>N{price}</p>
+                <p className='ci-price'>₦{price}</p>
               </div>
             </div>
 
             <div className='cart-btns-container'>
               <div className='cart-mplus'>
-                <button type='button'  className='cminus-btn cmp-btn'>-</button>
+                <button type='button'  className='cminus-btn cmp-btn' onClick={() => toggleAmount(_id, 'dec')}>-</button>
                 <p className='camount-btn cmp-btn'>{amount}</p>
-                <button type='button'  className='cplus-btn cmp-btn'>+</button>
+                <button type='button'  className='cplus-btn cmp-btn' onClick={() => toggleAmount(_id, 'inc')}>+</button>
               </div>
               <div className='cart-sr'>
                 <div className='cart-btn'>

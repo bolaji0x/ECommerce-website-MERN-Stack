@@ -4,7 +4,7 @@ import { BiX } from 'react-icons/bi'
 import CartItem from './CartItem'
 
 const CartContainer = () => {
-  const { showCart, toggleCart, cart, clearCart } = useAppContext()
+  const { showCart, toggleCart, cart, clearCart, total } = useAppContext()
     
   return (
     <aside className={
@@ -28,7 +28,7 @@ const CartContainer = () => {
           <footer className='cart-total-cont'>
             <div className='ct-texts'>
               <h2 className='subtotal'>Subtotal</h2>
-              <h2 className='subtotal'>N {cart?.reduce((total, item) => total + item.price, 0)}</h2>
+              <h2 className='subtotal'>₦ {total}</h2>
             </div>
             <button type='button' onClick={clearCart} className='checkout-btn'>Checkout</button>
           </footer>

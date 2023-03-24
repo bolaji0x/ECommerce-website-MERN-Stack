@@ -41,7 +41,11 @@ const Navbar = () => {
                 <button onClick={toggleSidebar}>{!showSidebar ? <AiOutlineMenu className='hn-sidebarbtn' /> : <BiX className='hn-sidebarbtn hxbtn' />}</button>
                 <div className='mobilebtn-cont'>
                     <button><BiBox className='mobilenavbtn' /></button>
-                    <button onClick={toggleCart}><BiCart className='mobilenavbtn' /></button>
+                    <div className='shop-no-btn'>
+                        <button onClick={toggleCart}>
+                        <BiCart className='mobilenavbtn' /></button>
+                    <button className='shobutton-amt'>3</button>
+                    </div>
                 </div>
             </div>
         </header>

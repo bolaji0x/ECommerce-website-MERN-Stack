@@ -25,11 +25,9 @@ import {
     HANDLE_CHANGE, 
     LOGOUT_USER, 
     REMOVE_ITEM, 
-    REMOVE_PRODUCT, 
     SETUP_USER_BEGIN,
     SETUP_USER_ERROR,
     SETUP_USER_SUCCESS,
-    SET_CART,
     TOGGLE_AMOUNT,
     TOGGLE_CART,
     TOGGLE_SIDEBAR,
@@ -254,21 +252,35 @@ const reducer = (state, action) => {
       }
     }
 
-
+    
     if (action.type === ADDTOCART_BEGIN) {
       return { ...state }
     }
-    
     if (action.type === ADDTOCART_SUCCESS) {
-      return {
-        ...state,
-        cart: [...state.cart, action.payload.cart],
-        showAlert: true,
-        alertType: 'success',
-    
-      }  
-    }
+      // Check if item already exists in cart
+      const existingCartItem = state.cart.find(
+        item => item._id === action.payload.id
+      );
+      if (existingCartItem) {
+        // If item already exists in cart, increase quantity
+        return {
+          ...state,
+          cart: state.cart.map(item =>
+            item._id === action.payload.id
+              ? { ...item, amount: item.amount + 1 }
+              : item
+          ),
+        };
+      } else {
+        // If item doesn't exist in cart, add it to cart
+        return {
+          ...state,
+          cart: [...state.cart, { ...action.payload.cart, amount: 1 }],
+        };
+      }
 
+    }
+    
     if(action.type === REMOVE_ITEM) {
       return {
         ...state, 
@@ -285,22 +297,55 @@ const reducer = (state, action) => {
     }
     
 
-    
+    if (action.type === TOGGLE_AMOUNT) {
+      let tempCart = state.cart
+        .map((cartItem) => {
+          if (cartItem._id === action.payload.id) {
+            if (action.payload.type === 'inc') {
+              return { ...cartItem, amount: cartItem.amount + 1 }
+            }
+            if (action.payload.type === 'dec') {
+              return { ...cartItem, amount: cartItem.amount - 1 }
+            }
+          }
+          return cartItem
+        })
+        .filter((cartItem) => cartItem.amount !== 0)
+      return { ...state, cart: tempCart }
+    }
 
-    
+    if (action.type === GET_TOTALS) {
+      let { total, amount } = state.cart.reduce(
+        (cartTotal, cartItem) => {
+          const { price, amount } = cartItem
+          const itemTotal = price * amount
+  
+          cartTotal.total += itemTotal
+          cartTotal.amount += amount
+          return cartTotal
+        },
+        {
+          total: 0,
+          amount: 0,
+        }
+      )
+      total = parseFloat(total.toFixed(2))
+  
+      return { ...state, total, amount }
+    }    
 
 
     if (action.type === GET_CURRENT_USER_BEGIN) {
         return { ...state, userLoading: true, showAlert: false };
       }
-      if (action.type === GET_CURRENT_USER_SUCCESS) {
-        return {
+    if (action.type === GET_CURRENT_USER_SUCCESS) {
+      return {
           ...state,
           userLoading: false,
           user: action.payload.user,
           userAddress: action.payload.address
-        };
-      }
+      };
+    }
     
     
       throw new Error(`no such action : ${action.type}`)

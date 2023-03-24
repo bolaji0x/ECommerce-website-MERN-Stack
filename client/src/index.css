@@ -1787,13 +1787,34 @@ td {
 
 .mobilebtn-cont {
   position: absolute;
-  right: 1rem;
+  right: 3rem;
   top: 1.4rem;
+  display: flex;
+  align-itms: center;
 }
 
 .mobilenavbtn {
-  font-size: 1.2rem;
-  margin-left: 1rem;
+  font-size: 1.5rem;
+  margin-left: 8px;
+}
+
+
+
+.shop-no-btn {
+  position: relative;
+  bordr: 1px solid red;
+}
+
+.shobutton-amt {
+  position: absolute;
+  background-color: var(--green-100);
+  color: var(--white);
+  border-radius: 100%;
+  right: 0;
+  top: 0;
+  font-size: 10px;
+  width: 13px;
+  height: 13px;
 }
 
 

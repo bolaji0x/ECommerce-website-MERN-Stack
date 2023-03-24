@@ -28,7 +28,6 @@ import {
   GET_SINGLEPRODUCT_BEGIN,
   GET_SINGLEPRODUCT_SUCCESS,
   GET_SINGLEPRODUCT_ERROR,
-  REMOVE_PRODUCT,
   CLEAR_CART,
   TOGGLE_AMOUNT,
   GET_TOTALS,
@@ -38,7 +37,6 @@ import {
   CREATE_ORDER_BEGIN,
   ADDTOCART_BEGIN,
   ADDTOCART_SUCCESS,
-  SET_CART,
   REMOVE_ITEM,
   
  
@@ -75,6 +73,8 @@ const initialState = {
 
   order: null,
   cart: JSON.parse(localStorage.getItem('cart')) || [],
+  total: 0,
+  amount: 0,
 
 }
 const AppContext = React.createContext()
@@ -318,7 +318,7 @@ const AppProvider = ({ children }) => {
       const {product} = data
       dispatch({
         type: ADDTOCART_SUCCESS,
-        payload: { cart: product },
+        payload: { cart: product, id },
       })
       
     } catch (error) {
@@ -330,10 +330,12 @@ const AppProvider = ({ children }) => {
   
   const removeItemFromCart = (id) => {
     dispatch({ type: REMOVE_ITEM, payload: {id} })
-    console.log(id)
+    
   }
 
-  
+  const toggleAmount = (id, type) => {
+    dispatch({ type: TOGGLE_AMOUNT, payload: { id, type } })
+  }
   
   const getCurrentUser = async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
@@ -355,10 +357,12 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(state.cart));
-  }, [state.cart]);
+  }, [state.cart, state.amount]);
 
   
-  
+  useEffect(() => {
+    dispatch({ type: GET_TOTALS })
+  }, [state.cart])
 
   useEffect(() => {
     getCurrentUser();
@@ -386,7 +390,8 @@ const AppProvider = ({ children }) => {
         toggleCart,
         createOrder,
         addItemToCart,
-        removeItemFromCart
+        removeItemFromCart,
+        toggleAmount
     
       }}
     >
