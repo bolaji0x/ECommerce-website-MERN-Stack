@@ -16,6 +16,8 @@ import {
     GET_AUTHPRODUCTS_SUCCESS, 
     GET_CURRENT_USER_BEGIN, 
     GET_CURRENT_USER_SUCCESS, 
+    GET_ORDERS_BEGIN, 
+    GET_ORDERS_SUCCESS, 
     GET_PRODUCTS_BEGIN, 
     GET_PRODUCTS_SUCCESS, 
     GET_SINGLEPRODUCT_BEGIN, 
@@ -237,7 +239,6 @@ const reducer = (state, action) => {
         ...state,
         isLoading: false,
         showAlert: true,
-        order: action.payload.order,
         alertType: 'success',
         alertText: 'Order added',
       }
@@ -249,6 +250,18 @@ const reducer = (state, action) => {
         showAlert: true,
         alertType: 'danger',
         alertText: action.payload.msg,
+      }
+    }
+
+    if (action.type === GET_ORDERS_BEGIN) {
+      return { ...state, isLoading: true, showAlert: false }
+    }
+    if (action.type === GET_ORDERS_SUCCESS) {
+      return {
+        ...state,
+        isLoading: false,
+        orders: action.payload.orders,
+        totalOrders: action.payload.totalOrders
       }
     }
 
@@ -267,7 +280,7 @@ const reducer = (state, action) => {
           ...state,
           cart: state.cart.map(item =>
             item._id === action.payload.id
-              ? { ...item, amount: item.amount + 1 }
+              ? { ...item, amount: item.amount + 1}
               : item
           ),
         };
@@ -275,7 +288,7 @@ const reducer = (state, action) => {
         // If item doesn't exist in cart, add it to cart
         return {
           ...state,
-          cart: [...state.cart, { ...action.payload.cart, amount: 1 }],
+          cart: [...state.cart, { ...action.payload.cart, amount: 1, product: action.payload.id }],
         };
       }
 

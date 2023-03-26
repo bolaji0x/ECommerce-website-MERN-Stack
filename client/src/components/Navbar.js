@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { FaAd } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { AiOutlineMenu  } from "react-icons/ai";
 import { BiX, BiCart, BiBox } from "react-icons/bi";
@@ -8,13 +7,15 @@ import items from './menu'
 import CartContainer from './CartContainer';
 const allCategories = ['all', ...new Set(items.map((item) => item.category))];
 const Navbar = () => {
-    const { toggleSidebar, showSidebar, amount, toggleCart, getProducts, cart} = useAppContext()
+    const { toggleSidebar, showSidebar, toggleCart, cart} = useAppContext()
     const [categories, setCategories] = useState(allCategories);
 
-    
+    const totalQuantity = cart.reduce((total, item) => {
+        return total + item.amount;
+      }, 0);
+
     useEffect(() => {
         setCategories(allCategories)
-        
     }, [])
   return (
     <>
@@ -43,8 +44,8 @@ const Navbar = () => {
                     <button><BiBox className='mobilenavbtn' /></button>
                     <div className='shop-no-btn'>
                         <button onClick={toggleCart}>
-                        <BiCart className='mobilenavbtn' /></button>
-                    <button className='shobutton-amt'>3</button>
+                        <BiCart className='shop-btn' /></button>
+                        <button className='shobutton-amt'>{totalQuantity}</button>
                     </div>
                 </div>
             </div>

@@ -25,7 +25,8 @@ const ProductSchema = new mongoose.Schema({
     },
     price: {
       type: Number,
-      required: [true, 'Pls provide a price']
+      required: [true, 'Pls provide a price'],
+      default: 0
     },
     amount: {
       type: Number,

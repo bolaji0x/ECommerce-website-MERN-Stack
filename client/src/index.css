@@ -132,22 +132,32 @@ ul, li {
   margin: 0;
 }
 
-.loading {
-  width: 6rem;
-  height: 6rem;
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.loading-center {
   margin: 0 auto;
-  margin-top: 10rem;
+}
+
+.top-loading {
+  margin-top: 8px;
+  margin-left: 8px;
+}
+
+.loading {
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   border: 3px solid #ccc;
   border-top-color: var(--blue-100);
   animation: spinner 0.6s linear infinite;
 }
 
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
+
 
 .dashboard-page {
   max-width: var(--max-width);
@@ -588,7 +598,7 @@ flex-direction: column;
   margin-bottom: 1rem;
 }
 .page-title, .dlh-price {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--black-100);
   font-weight: var(--thicker-font);
 }
@@ -597,6 +607,7 @@ flex-direction: column;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   grid-gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .dlh-flex {
@@ -645,6 +656,8 @@ flex-direction: column;
   color: var(--black-300);
   line-height: 1.2;
 }
+
+
 
 
 .dashboard-content {
@@ -1266,6 +1279,14 @@ td {
 .order-table th,.order-table td {
   padding: 8px;
 }
+
+.oder-section {
+  height: 70vh;
+}
+
+.od-table td {
+  padding: 8px 0;
+}
   
 .order-atext {
   font-size: .7rem;
@@ -1275,6 +1296,7 @@ td {
 }
 
 .order-btext {
+  text-transform: capitalize;
   font-size: .7rem;
   color: var(--black-100);
   font-weight: var(--thicker-font);
@@ -1477,6 +1499,14 @@ td {
 }
 
 .ci-title {
+  color: var(--black-100);
+  font-size: 1.5rem;
+}
+
+.empty-cart {
+  text-align: center;
+  margin-top: 4rem;
+  color: var(--black-200);
   font-size: 1.5rem;
 }
 
@@ -1787,18 +1817,20 @@ td {
 
 .mobilebtn-cont {
   position: absolute;
-  right: 3rem;
+  right: 1rem;
   top: 1.4rem;
   display: flex;
   align-itms: center;
 }
 
 .mobilenavbtn {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-left: 8px;
 }
 
-
+.shop-btn {
+  font-size: 1.6rem;
+}
 
 .shop-no-btn {
   position: relative;
@@ -1812,9 +1844,9 @@ td {
   border-radius: 100%;
   right: 0;
   top: 0;
-  font-size: 10px;
-  width: 13px;
-  height: 13px;
+  font-size: 11px;
+  width: 14px;
+  height: 14px;
 }
 
 

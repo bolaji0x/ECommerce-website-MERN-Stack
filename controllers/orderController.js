@@ -46,7 +46,7 @@ const createOrder = async (req, res) => {
     subtotal += item.amount * price;
   }
   // calculate total
-  const total = tax + shippingFee + subtotal;
+  const total = Number(tax) + Number(shippingFee) + Number(subtotal);
   // get client secret
   const paymentIntent = await fakeStripeAPI({
     amount: total,
@@ -66,6 +66,7 @@ const createOrder = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ order, clientSecret: order.clientSecret });
 };
 const getAllOrders = async (req, res) => {
+
   const orders = await Order.find({});
   res.status(StatusCodes.OK).json({ orders, count: orders.length });
 };
@@ -79,8 +80,38 @@ const getSingleOrder = async (req, res) => {
   res.status(StatusCodes.OK).json({ order });
 };
 const getCurrentUserOrders = async (req, res) => {
-  const orders = await Order.find({ createdBy: req.user.userId });
-  res.status(StatusCodes.OK).json({ orders, count: orders.length });
+  const { sort } = req.query
+  const queryObject = {
+    createdBy: req.user.userId,
+  };
+  
+
+  // NO AWAIT
+
+  let result = Order.find(queryObject).populate('createdBy', '_id username lastName email');
+
+  // chain sort conditions
+
+  if (sort === 'latest') {
+    result = result.sort('-createdAt');
+  }
+  if (sort === 'oldest') {
+    result = result.sort('createdAt');
+  }
+
+  // setup pagination
+  const page = Number(req.query.page) * 1 || 1;
+  const limit = Number(req.query.limit) * 1 || 6;
+  const skip = (page - 1) * limit;
+
+  result = result.skip(skip).limit(limit);
+
+  const orders = await result;
+
+  const totalOrders = await Order.countDocuments(queryObject);
+  res.status(StatusCodes.OK).json({ orders, totalOrders })
+
+  
 };
 const updateOrder = async (req, res) => {
   const { id: orderId } = req.params;

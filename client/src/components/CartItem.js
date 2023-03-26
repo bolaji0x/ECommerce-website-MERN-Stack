@@ -3,6 +3,7 @@ import { BiHeart, BiXCircle } from 'react-icons/bi'
 import { useAppContext } from '../context/appContext'
 const CartItem = ({_id, title, images, price, amount}) => {
   const { removeItemFromCart, toggleAmount } = useAppContext()
+  
   return (
     <>
 

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Product from './Product'
 import {Loading} from '.'
 import { useAppContext } from '../context/appContext'
-import { Link  } from 'react-router-dom'
 
 const ProductContainer = () => {
     const {isLoading, products, page, getProducts} = useAppContext()

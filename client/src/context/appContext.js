@@ -38,6 +38,8 @@ import {
   ADDTOCART_BEGIN,
   ADDTOCART_SUCCESS,
   REMOVE_ITEM,
+  GET_ORDERS_BEGIN,
+  GET_ORDERS_SUCCESS,
   
  
 
@@ -75,6 +77,13 @@ const initialState = {
   cart: JSON.parse(localStorage.getItem('cart')) || [],
   total: 0,
   amount: 0,
+
+  tax: 30,
+  shippingFee: 15,
+  items: JSON.parse(localStorage.getItem('cart')) || [],
+
+  orders: [],
+  totalOrders: 0
 
 }
 const AppContext = React.createContext()
@@ -289,27 +298,6 @@ const AppProvider = ({ children }) => {
     }
   }
 
-  const createOrder = async ({currentOrder}) => {
-    dispatch({ type: CREATE_ORDER_BEGIN })
-    try {
-      const config = {
-        headers: { "Content-Type": "application/json" },
-      };
-      const { data } = await authFetch.post('/orders', currentOrder, config)
-      const {order} = data
-      dispatch({ type: CREATE_ORDER_SUCCESS, payload: {order}})
-      
-    } catch (error) {
-      if (error.response.status === 401) return
-      dispatch({
-        type: CREATE_ORDER_ERROR,
-        payload: { msg: error.response.data.msg },
-      })
-    }
-    clearAlert()
-  }
-
-
   const addItemToCart = async (id) => {
     dispatch({ type: ADDTOCART_BEGIN })
     try {
@@ -337,6 +325,52 @@ const AppProvider = ({ children }) => {
     dispatch({ type: TOGGLE_AMOUNT, payload: { id, type } })
   }
   
+
+  const createOrder = async () => {
+    dispatch({ type: CREATE_ORDER_BEGIN });
+    try {
+      const { tax, shippingFee, items } = state;
+      await authFetch.post('/orders', {
+        tax,
+        shippingFee,
+        items
+      });
+      dispatch({ type: CREATE_ORDER_SUCCESS });
+      dispatch({ type: CLEAR_CART })
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_ORDER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  }
+
+  const getOrders = async () => {
+    const {sort, page} = state
+    let url = `/orders/showAllMyOrders?limit=${page*6}&sort=${sort}`
+
+    dispatch({ type: GET_ORDERS_BEGIN })
+  
+    try {
+      const { data } = await authFetch(url)
+      const { orders, totalOrders } = data
+      console.log(orders)
+      dispatch({
+        type: GET_ORDERS_SUCCESS,
+        payload: {
+          orders,
+          totalOrders
+        },
+      })
+    } catch (error) {
+        logoutUser();
+    }
+    clearAlert()
+  }
+
+
   const getCurrentUser = async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
     try {
@@ -388,10 +422,11 @@ const AppProvider = ({ children }) => {
         deleteProduct,
         clearCart,
         toggleCart,
-        createOrder,
         addItemToCart,
         removeItemFromCart,
-        toggleAmount
+        toggleAmount,
+        createOrder,
+        getOrders
     
       }}
     >
