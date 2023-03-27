@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
   );
 
   if (!user) {
-    return <Navigate to='/register' />;
+    return <Navigate to='/signup' />;
   }
   return children;
 };

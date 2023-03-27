@@ -7,6 +7,8 @@ const initialState = {
   email: '',
   username: '',
   password: '',
+  firstName: '',
+  lastName: '',
   isMember: true
 }
 
@@ -16,7 +18,7 @@ const Register = () => {
 
   const [values, setValues] = useState(initialState)
   const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState(['https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg']);
   
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember })
@@ -28,9 +30,9 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const {email, username, password, isMember} = values
+    const {email, username, password, firstName, lastName, isMember} = values
 
-    if(!username|| !password || (!isMember && !email)) {
+    if(!username|| !password || (!isMember && !email && !firstName && !lastName)) {
       displayAlert()
       return
     }
@@ -39,6 +41,8 @@ const Register = () => {
     currentUser.set("email", values.email);
     currentUser.set("username", values.username);
     currentUser.set("password", values.password);
+    currentUser.set("firstName", values.firstName);
+    currentUser.set("lastName", values.lastName);
 
     images.forEach((image) => {
       currentUser.append("images", image);
@@ -81,7 +85,7 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate('/dashboard')
+        navigate('/')
       }, 3000)
     }
   }, [user, navigate])
@@ -89,7 +93,7 @@ const Register = () => {
   return (
     <React.Fragment>
       {user && <Navigate to='/' />}
-      <section className='bd-container'>
+      <section className='b-container'>
       <div>
         <form 
           encType="multipart/form-data"  className='form-section' 
@@ -124,6 +128,25 @@ const Register = () => {
               labelText='Email'
               handleChange={handleChange}
             />
+            {/* firstName */}
+            <FormRow
+              type='text'
+              name='firstName'
+              placeholder='First Name'
+              value={values.firstName}
+              labelText='First Name'
+              handleChange={handleChange}
+            />
+            {/* lastName */}
+            <FormRow
+              type='text'
+              name='lastName'
+              placeholder='Last Name'
+              value={values.lastName}
+              labelText='Last Name'
+              handleChange={handleChange}
+            />
+            
         </div>
         )}
         {/* username */}

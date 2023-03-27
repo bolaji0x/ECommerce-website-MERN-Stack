@@ -14,7 +14,7 @@ const Product = ({_id, title, price, images }) => {
                     
                     <div className='ep-texts'>
                         <p className='ep-title'>{title}</p>
-                        <h3 className='ep-price'>N {price}</h3>
+                        <h3 className='ep-price'>₦ {price.toLocaleString()}</h3>
                         <button onClick={() =>addItemToCart(_id)} type='button'  className='ep-btn'>Add To Cart</button>
                     </div>
                 </div>

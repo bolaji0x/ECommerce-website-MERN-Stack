@@ -23,12 +23,12 @@ const Navbar = () => {
         <header className='hn-header'>
             <nav className='hn-container'>
             
-                <h1 className='hn-title'>Konga</h1>
+                <Link className='hn-title-link' to='/'><h1 className='hn-title'>Konga</h1></Link>
                 <ul className='hn-list'>
-                    <li><Link className='eachn-link'>Store Location</Link></li>
-                    <li><Link className='eachn-link'>Sell on Konga</Link></li>
-                    <li><Link className='eachn-link'>Help</Link></li>
-                    <li><Link to='/' className='eachn-link'>Login / Signup</Link></li>
+                    <li><Link to='/signup' className='eachn-link'>Store Location</Link></li>
+                    <li><Link to='/signup' className='eachn-link'>Sell on Konga</Link></li>
+                    <li><Link to='/signup' className='eachn-link'>Help</Link></li>
+                    <li><Link to='/signup' className='eachn-link'>Login / Signup</Link></li>
                 </ul>
                 <button onClick={toggleCart} className='hb-btn'>
                     <BiCart className='hn-icon' />

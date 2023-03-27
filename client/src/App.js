@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Register, Error, ProtectedRoute } from './pages'
 import { SharedLayout, Home, AddProduct, AdminProducts, EditProduct, AllProducts, SingleProduct, AdminOrders } from './pages/dashboard'
 
-import CartItem from './components/CartItem'
 
 function App() {
   return (
@@ -18,18 +17,15 @@ function App() {
           }
         >
           
-          <Route path='dashboard' element={<Home/>} />
+          <Route index element={<Home/>} />
           <Route path='add-product' element={<AddProduct />} />
           <Route path='all-products' element={<AdminProducts />} />
           <Route path='/:id/edit-product' element={<EditProduct />} />
           <Route path='/orders' element={<AdminOrders />} />
         </Route>
-        <Route path='/register' element={<Register />} />
-        <Route path='/all' element={<AllProducts/>} />
+        <Route path='/signup' element={<Register />} />
+        <Route path='/shop' element={<AllProducts/>} />
         <Route path='/product/:id' element={<SingleProduct/>} />
-
-        <Route path='/cart' element={<CartItem />} />
-
         <Route path='*' element={<Error />} />
       </Routes>
     </Router>

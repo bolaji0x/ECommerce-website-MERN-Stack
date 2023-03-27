@@ -2,6 +2,8 @@ const User = require ('../models/User.js')
 const { StatusCodes } = require ('http-status-codes')
 const { BadRequestError, UnAuthenticatedError } = require ('../errors/index.js')
 const attachCookie = require('../utils/attachCookie.js')
+const Token = require('../models/Token');
+
 const cloudinary = require("cloudinary")
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_HOST,
@@ -43,8 +45,13 @@ const register = async (req, res) => {
     }
     const user = await User.create(req.body)
   
-    const token = user.createJWT()
-    attachCookie({ res, token });
+    const existingToken = user.createJWT()
+
+    // create refresh token
+    let refreshToken = '';
+    refreshToken = existingToken.refreshToken;
+    attachCookie({ res, accessToken: existingToken, refreshToken });
+    
     res.status(StatusCodes.CREATED).json({
         user: {
           images: user.images,
@@ -73,89 +80,43 @@ const login = async (req, res) => {
     if (!isPasswordCorrect) {
       throw new UnAuthenticatedError('Invalid Credentials')
     }
-    const token = user.createJWT()
-    attachCookie({ res, token });
+
+    const existingToken = user.createJWT()
+
+    // create refresh token
+    let refreshToken = '';
+
+    refreshToken = existingToken.refreshToken;
+    attachCookie({ res, accessToken: existingToken, refreshToken });
     user.password = undefined
     res.status(StatusCodes.OK).json({ user, address: user.address })
-}
-  
-const updateUser = async (req, res) => {
-  let user = await User.findById(req.user.userId);
-
-  if (!user) {
-    throw new CustomError.NotFoundError("User not found");
-  }
-
-  // Images Start Here
-  let images = [];
-
-  if (typeof req.body.images === "string") {
-    images.push(req.body.images);
-  } else {
-    images = req.body.images;
-  }
-
-  if (images !== undefined) {
-    // Deleting Images From Cloudinary
-    for (let i = 0; i < user.images.length; i++) {
-      await cloudinary.v2.uploader.destroy(user.images[i].public_id);
-    }
-
-    const imagesLinks = [];
-
-    for (let i = 0; i < images.length; i++) {
-      const result = await cloudinary.v2.uploader.upload(images[i], {
-        folder: "products",
-      });
-
-      imagesLinks.push({
-        public_id: result.public_id,
-        url: result.secure_url,
-      });
-    }
-
-    req.body.images = imagesLinks;
-  }
-
-  user = await User.findByIdAndUpdate(req.user.userId, req.body, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  });
-
-  const token = user.createJWT()
-  attachCookie({ res, token });
-  res.status(StatusCodes.OK).json({ user, token, address: user.address })
-}
-
-const getSingleUser = async (req, res) => {
-    const {id: userId} = req.params
-    const user = await User.findOne({_id: userId}).select('-password')
-    if(!user) {
-        throw new CustomError.NotFoundError(`Cant find user with id: ${req.params.username}`)
-    }
-    res.status(StatusCodes.OK).json({ user })
 }
 
 
 const getCurrentUser = async (req, res) => {
-    const user = await User.findOne({ _id: req.user.userId });
-    res.status(StatusCodes.OK).json({ user, address: user.address });
+  const user = await User.findOne({ _id: req.user.userId });
+  res.status(StatusCodes.OK).json({ user, address: user.address });
 }
 
 const logout = async (req, res) => {
-  res.cookie('token', 'logout', {
+  //await Token.findOneAndDelete({ user: req.user.userId });
+
+  res.cookie('accessToken', 'logout', {
     httpOnly: true,
-    expires: new Date(Date.now() + 1000),
+    expires: new Date(Date.now()),
+  });
+  res.cookie('refreshToken', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()),
   });
   res.status(StatusCodes.OK).json({ msg: 'user logged out!' });
 };
 
+
+
 module.exports = { 
   register,
   login,
-  updateUser,
-  getSingleUser,
   getCurrentUser, 
   logout
 }

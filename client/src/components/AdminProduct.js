@@ -9,7 +9,7 @@ const AdminProduct = ({_id, images, title, description, category, price}) => {
      <Link to={`/product/${_id}`}><img className='pl-img' src={images[0].url} alt={title} /></Link>
         <div className='eachpl-content'>
             <h3 className='pl-title'>{title}</h3>
-            <p className='pl-price'>${price}.00</p>    
+            <p className='pl-price'>₦{price.toLocaleString()}.00</p>    
             <div className='plbtn-container'>
                   <Link className='editbtn-link' to={`/${_id}/edit-product`}>
                     <button type='button' className='pl-btn'>

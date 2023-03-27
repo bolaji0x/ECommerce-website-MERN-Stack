@@ -286,13 +286,22 @@ ul, li {
   padding: 2rem 1rem;
   box-shadow: var(--shadow-3);
   border-radius: var(--borderRadius);
-  width: 100%;
-  height: 80vh;
+  max-width: 600px;
+  width: calc(100% - 2rem);
+  height: 70vh;
+  margin-top: 4rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.form-section {
+  idth: 100%;
+  eight: 80vh;
 }
 
 .register-title {
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 5px;
   font-weight: var(--thicker-font);
 }
 
@@ -308,7 +317,9 @@ ul, li {
 }
 
 .upload-text {
-  margin: 2rem;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .upload-btn {
@@ -925,7 +936,13 @@ flex-direction: column;
   font-size: 1.3rem;
   font-weight: var(--thicker-font);
   margin-left: 2rem;
+  text-decoration: none;
 }
+
+.hn-title-link {
+  text-decoration: none;
+}
+
 .hn-header {
   height: 60px;
   width: 100%;
@@ -1714,6 +1731,8 @@ td {
     font-size: 1.5rem;
   }
 
+  
+
   .hb-btn {
     visibility: visible;
   }
@@ -1856,7 +1875,8 @@ td {
   .dashboard-page,
   .list-container,
   .hn-container,
-  .sh-content  {
+  .sh-content,
+  .form-section  {
     margin-left: auto;
     margin-right: auto;
   }

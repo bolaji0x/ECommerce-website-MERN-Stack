@@ -10,20 +10,15 @@ const apiLimiter = rateLimiter({
 })
 
 const { 
-  register,
-  login,
-  getCurrentUser,
-  logout
+  updateUser,
+  getSingleUser,
   
-} = require('../controllers/authController.js')
+} = require('../controllers/userController.js')
 
 const authenticateUser = require('../middleware/auth.js');
 
-router.route('/register').post(register)
-router.route('/login').post(login)
-router.get('/logout', logout);
 
-router.route('/getCurrentUser').get(authenticateUser, getCurrentUser);
-
+router.route('/updateUser').put(authenticateUser, updateUser)
+router.route('/:id').get(getSingleUser)
 
 module.exports = router

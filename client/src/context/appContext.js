@@ -145,15 +145,6 @@ const AppProvider = ({ children }) => {
   }
 
 
-
-
-
-
-
-
-
-
-
   const setupUser = async ({currentUser, endPoint, alertText}) => {
     dispatch({ type: SETUP_USER_BEGIN })
     try {

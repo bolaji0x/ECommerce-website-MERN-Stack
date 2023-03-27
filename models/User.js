@@ -40,13 +40,15 @@ const UserSchema = new mongoose.Schema({
         minlength: 5
     },
     firstName: {
-        type: String,
+      type: String,
+      required: [true, 'Pls input your first name'],
     },
     lastName: {
-        type: String,
+      type: String,
+      required: [true, 'Pls input your last name'],
     },
     phoneNo: {
-        type: Number,
+      type: Number,
     },
     address: {
         type: String,

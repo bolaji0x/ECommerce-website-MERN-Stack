@@ -20,6 +20,7 @@ const connectDB = require('./db/connect.js');
 
 // routers
 const authRouter = require('./routes/authRoutes.js');
+const userRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes.js')
 const orderRouter = require('./routes/orderRoutes');
 
@@ -48,10 +49,11 @@ app.use(
 )
 app.use(xss());
 app.use(mongoSanitize());
-app.use(cookieParser());
+app.use(cookieParser(process.env.JWT_SECRET));
 
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/orders', authenticateUser, orderRouter);
 // only when ready to deploy
