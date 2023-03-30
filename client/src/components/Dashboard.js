@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { BiCartAlt, BiShoppingBag, BiDotsHorizontalRounded } from "react-icons/bi";
+import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/appContext';
 const Dashboard = () => {
     const {orders, totalOrders, totalProducts, getOrders, getUserProducts} = useAppContext()
@@ -52,23 +53,24 @@ const Dashboard = () => {
             </div>
 
 
-            <div className='form-section oder-section'>
+            <div className='latest-order-section'>
                 <h1 className='page-title'>Latest Orders</h1>
                     <table className='order-table od-table'>
                     {orders.map((order) => {
                         const {_id, createdBy, total, status, createdAt} = order
                     return (
-                        <>
-                            <tbody key={_id}  className='order-content'>
-                                <td className='order-atext lhtc'>{_id.substring(0,3)}</td>
-                                <td className='order-btext lhtc'>{createdBy.username} {createdBy.lastName}</td>
-                                <td className='order-atext'>{createdBy.email}</td>
-                                <td className='order-atext'>₦ {total.toLocaleString()}</td>
-                                <td><button className='status-btn'>{status}</button></td>
-                                <td className='order-atext'>{formatDate(createdAt)}</td>
-                                <td><button><BiDotsHorizontalRounded className='order-dots' /></button></td>
-                            </tbody>
-                        </>
+                        <tbody key={_id}  className='order-content'>
+                        <tr>
+                          <td className='order-atext lhtc'><Link className='order-link' to={`/order/${_id}`}>{_id.substring(0,3)}</Link></td>
+                          <td className='order-btext lhtc'><Link className='order-link' to={`/order/${_id}`}>{createdBy.username} {createdBy.lastName}</Link></td>
+                          <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>₦ {total}</Link></td>
+                          <td><Link><button className='status-btn'>{status}</button></Link></td>
+                          <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>{formatDate(createdAt)}</Link></td>
+                          <td><button><BiDotsHorizontalRounded className='order-dots' /></button></td>
+                        </tr>
+                      </tbody>
+                        
+                        
                     )
                 })}
                 </table>

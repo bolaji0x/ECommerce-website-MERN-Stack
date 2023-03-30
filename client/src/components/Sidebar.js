@@ -22,9 +22,9 @@ const Sidebar = () => {
         
           
         <div className='sidebar-content'>  
-              {links.map((question) => {
+              {links.map((link) => {
                 return (
-                  <SidebarLinks key={question.id} {...question}></SidebarLinks>
+                  <SidebarLinks key={link.id} {...link}></SidebarLinks>
                 );
               })}
         </div>

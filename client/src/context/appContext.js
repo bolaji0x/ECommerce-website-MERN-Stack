@@ -40,6 +40,9 @@ import {
   REMOVE_ITEM,
   GET_ORDERS_BEGIN,
   GET_ORDERS_SUCCESS,
+  GET_SINGLEORDER_BEGIN,
+  GET_SINGLEORDER_SUCCESS,
+  GET_SINGLEORDER_ERROR,
   
  
 
@@ -56,14 +59,10 @@ const initialState = {
   user: null,
   userAddress: '',
 
-  
-
-
   image: '',
   title: '',
   description: '',
   price: 0,
-  
   
   sort: 'latest',
   page: 1,
@@ -77,11 +76,9 @@ const initialState = {
   cart: JSON.parse(localStorage.getItem('cart')) || [],
   total: 0,
   amount: 0,
-
   tax: 30,
   shippingFee: 15,
   items: JSON.parse(localStorage.getItem('cart')) || [],
-
   orders: [],
   totalOrders: 0
 
@@ -362,6 +359,29 @@ const AppProvider = ({ children }) => {
   }
 
 
+  const getSingleOrder = async (id) => {
+    dispatch({ type: GET_SINGLEORDER_BEGIN })
+    try {
+      const { data } = await authFetch.get(`/orders/${id}`)
+      const { order } = data
+      console.log(order)
+      dispatch({
+        type: GET_SINGLEORDER_SUCCESS,
+        payload: {
+          order,
+        },
+      })
+    } catch (error) {
+      if (error.response.status === 401) return
+        dispatch({
+          type: GET_SINGLEORDER_ERROR,
+          payload: { msg: error.response.data.msg }
+        })
+    }
+    clearAlert()
+  }
+
+
   const getCurrentUser = async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
     try {
@@ -417,7 +437,8 @@ const AppProvider = ({ children }) => {
         removeItemFromCart,
         toggleAmount,
         createOrder,
-        getOrders
+        getOrders,
+        getSingleOrder
     
       }}
     >

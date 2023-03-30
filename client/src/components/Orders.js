@@ -1,5 +1,6 @@
 import React from 'react'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import { Link } from 'react-router-dom';
 
 const Orders = ({_id, createdBy, orderItems, total, status, createdAt}) => {
 
@@ -12,16 +13,18 @@ const Orders = ({_id, createdBy, orderItems, total, status, createdAt}) => {
 
   
   return (
-                  <>
-                    <tbody key={_id}  className='order-content'>
-                      <td className='order-atext lhtc'>{_id.substring(0,3)}</td>
-                      <td className='order-btext lhtc'>{createdBy.username} {createdBy.lastName}</td>
-                      <td className='order-atext'>₦ {total}</td>
-                      <td><button className='status-btn'>{status}</button></td>
-                      <td className='order-atext'>{formatDate(createdAt)}</td>
-                      <td><button><BiDotsHorizontalRounded className='order-dots' /></button></td>
-                  </tbody>
-                  </>
+    <>
+    <tbody key={_id}  className='order-content'>
+      <tr>
+        <td className='order-atext lhtc'><Link className='order-link' to={`/order/${_id}`}>{_id.substring(0,3)}</Link></td>
+        <td className='order-btext lhtc'><Link className='order-link' to={`/order/${_id}`}>{createdBy.username} {createdBy.lastName}</Link></td>
+        <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>₦ {total}</Link></td>
+        <td><Link><button className='status-btn'>{status}</button></Link></td>
+        <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>{formatDate(createdAt)}</Link></td>
+        <td><button><BiDotsHorizontalRounded className='order-dots' /></button></td>
+      </tr>
+    </tbody>
+  </>
                
               
     

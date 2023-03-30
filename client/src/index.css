@@ -1205,6 +1205,19 @@ width: 30%;
 .order-section {
   padding: 0;
   margin: 0;
+  background-color: var(--white);
+  height: 80vh;
+}
+
+.create-product-section {
+  padding: 1.5rem;
+}
+
+.latest-order-section {
+  padding: 1rem;
+  margin: 0;
+  background-color: var(--white);
+  height: 70vh;
 }
 
 .table-container{
@@ -1258,8 +1271,6 @@ width: 30%;
   
 }
 
-
-
 .order-head-title {
   display: flex;
   justify-content: space-between;
@@ -1283,7 +1294,10 @@ width: 30%;
   text-align: right;
 }
 
-
+.order-link {
+  text-decoration: none;
+  color: var(--black-200);
+}
 
 td {
   text-align: right;
@@ -1635,6 +1649,7 @@ td {
   padding: .5rem;
   font-weight: var(--thicker-font);
   border-radius: var(--borderRadius);
+  margin-top: 5px;
 }
 
 @media screen and (min-width: 650px) {

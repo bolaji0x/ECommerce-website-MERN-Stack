@@ -14,26 +14,26 @@ const sublinks = [
     page: 'products',
     icon: <BiBox />,
     slinks: [
-    { label: 'add product', url: 'add-product' },
-    { label: 'product list', url: 'products' },
-    { label: 'categories', url: 'categories' },
-    { label: 'brands', url: 'brands' }]
+    { id: 1, label: 'add product', url: 'add-product' },
+    { id: 2, label: 'product list', url: 'all-products' },
+    { id: 3, label: 'categories', url: 'categories' },
+    { id: 4, label: 'brands', url: 'brands' }]
   },
   {
     id: 3,
     page: 'orders',
     icon: <BiCartAlt />,
     slinks: [
-    { label: 'orders', url: 'orders' },
-    { label: 'order list', url: 'order-list' }]
+    { id: 1, label: 'orders', url: 'orders' },
+    { id: 2, label: 'order list', url: 'order-list' }]
   },
   {
     id: 4,
     page: 'customers',
     icon: <BiUser />,
     slinks: [
-    { label: 'customer', url: 'customers' },
-    { label: 'customer list', url: '' }]
+    { id: 1, label: 'customer', url: 'customers' },
+    { id: 2, label: 'customer list', url: '' }]
   },
   {
     id: 5,

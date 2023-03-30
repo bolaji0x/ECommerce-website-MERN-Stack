@@ -15,8 +15,8 @@ const SidebarLinks = ({page, icon, slinks}) => {
           </div>
           {showItems && 
           <div className='sidebar-sublinks'>{slinks.map((slink) => {
-            const {label, url} = slink
-            return <Link to={`/${url}`} className='each-sublink'>{label}</Link>
+            const {id, label, url} = slink
+            return <Link key={id} to={`/${url}`} className='each-sublink'>{label}</Link>
           })}
           </div>
           }

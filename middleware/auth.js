@@ -29,14 +29,6 @@ const auth = async (req, res, next) => {
       refreshToken: existingToken.refreshToken,
     });
 
-    /*
-    attachCookie({ 
-      res, 
-      refreshToken: existingToken.refreshToken, 
-      existingToken: existingToken
-    });
-    */
-
     req.user = { userId: payload.userId };
     next();
   } catch (error) {

@@ -72,7 +72,7 @@ const getAllOrders = async (req, res) => {
 };
 const getSingleOrder = async (req, res) => {
   const { id: orderId } = req.params;
-  const order = await Order.findOne({ _id: orderId });
+  const order = await Order.findOne({ _id: orderId }).populate('createdBy');
   if (!order) {
     throw new CustomError.NotFoundError(`No order with id : ${orderId}`);
   }

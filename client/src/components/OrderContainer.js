@@ -19,7 +19,7 @@ const OrderContainer = () => {
         </div>
         
 
-        <div className='form-section order-section'>
+        <div className='orm-section order-section'>
           <div className='order-search-head'>
             <input 
               type='text'

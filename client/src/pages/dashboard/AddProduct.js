@@ -22,7 +22,7 @@ const AddProduct = () => {
 
   const [values, setValues] = useState(initialState);
   const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState(['https://user-images.githubusercontent.com/43302778/106805462-7a908400-6645-11eb-958f-cd72b74a17b3.jpg']);
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -69,7 +69,7 @@ const AddProduct = () => {
     <>
       <section className='bd-container'>
         <h1 className='page-title'>Create Product</h1>
-        <form onSubmit={handleSubmit} encType='multipart/form-data'  className='form-section'>
+        <form onSubmit={handleSubmit} encType='multipart/form-data'  className='create-product-section order-section'>
         {showAlert && <Alert />}
           <FormRow 
             type='text'

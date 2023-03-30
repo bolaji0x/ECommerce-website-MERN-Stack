@@ -20,6 +20,9 @@ import {
     GET_ORDERS_SUCCESS, 
     GET_PRODUCTS_BEGIN, 
     GET_PRODUCTS_SUCCESS, 
+    GET_SINGLEORDER_BEGIN, 
+    GET_SINGLEORDER_ERROR, 
+    GET_SINGLEORDER_SUCCESS, 
     GET_SINGLEPRODUCT_BEGIN, 
     GET_SINGLEPRODUCT_ERROR, 
     GET_SINGLEPRODUCT_SUCCESS, 
@@ -262,6 +265,27 @@ const reducer = (state, action) => {
         isLoading: false,
         orders: action.payload.orders,
         totalOrders: action.payload.totalOrders
+      }
+    }
+
+    if (action.type === GET_SINGLEORDER_BEGIN) {
+      return { ...state, isLoading: true, showAlert: false }
+    }
+    if (action.type === GET_SINGLEORDER_SUCCESS) {
+      return {
+        ...state,
+        isLoading: false,
+        order: action.payload.order
+      }
+    }
+  
+    if (action.type === GET_SINGLEORDER_ERROR) {
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'danger',
+        alertText: action.payload.msg,
       }
     }
 
