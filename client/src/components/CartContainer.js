@@ -83,12 +83,14 @@ const CartContainer = () => {
               <h2 className='subtotal'>Subtotal</h2>
               <h2 className='subtotal'>₦ {total}</h2>
             </div>
-            {/* 
-            <button type='button' onClick={createOrder} className='checkout-btn'> Test Create Order</button>
-            */}
             
+            <button type='button' onClick={createOrder} className='checkout-btn'> Test Create Order</button>
+            
+            
+            {/*
             <PaystackButton {...componentProps} className='checkout-btn' />
 
+            */}
           
           </footer>
     </aside>

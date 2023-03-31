@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { OrderDetails } from './components'
 
-import { Register, Error, ProtectedRoute } from './pages'
-import { SharedLayout, Home, AddProduct, AdminProducts, EditProduct, AllProducts, SingleProduct, AdminOrders } from './pages/dashboard'
+import { Register, Error, ProtectedRoute, RegisterBuyer } from './pages'
+import { SharedLayout, Home, AddProduct, AdminProducts, EditProduct, AllProducts, SingleProduct, AdminOrders, Buyer } from './pages/dashboard'
 
 
 function App() {
@@ -24,9 +24,12 @@ function App() {
           <Route path='/:id/edit-product' element={<EditProduct />} />
           <Route path='/orders' element={<AdminOrders />} />
           <Route path='/order/:id' element={<OrderDetails />} />
+          
         </Route>
         <Route path='/signup' element={<Register />} />
+        <Route path='/signup/buyer' element={<RegisterBuyer />} />
         <Route path='/shop' element={<AllProducts/>} />
+        <Route path='/buyer' element={<Buyer />} />
         <Route path='/product/:id' element={<SingleProduct/>} />
         <Route path='*' element={<Error />} />
       </Routes>

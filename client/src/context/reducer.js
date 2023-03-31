@@ -14,6 +14,8 @@ import {
     DISPLAY_ALERT, 
     GET_AUTHPRODUCTS_BEGIN, 
     GET_AUTHPRODUCTS_SUCCESS, 
+    GET_CURRENT_BUYER_BEGIN, 
+    GET_CURRENT_BUYER_SUCCESS, 
     GET_CURRENT_USER_BEGIN, 
     GET_CURRENT_USER_SUCCESS, 
     GET_ORDERS_BEGIN, 
@@ -28,8 +30,12 @@ import {
     GET_SINGLEPRODUCT_SUCCESS, 
     GET_TOTALS, 
     HANDLE_CHANGE, 
+    LOGOUT_BUYER, 
     LOGOUT_USER, 
     REMOVE_ITEM, 
+    SETUP_BUYER_BEGIN, 
+    SETUP_BUYER_ERROR, 
+    SETUP_BUYER_SUCCESS, 
     SETUP_USER_BEGIN,
     SETUP_USER_ERROR,
     SETUP_USER_SUCCESS,
@@ -84,8 +90,39 @@ const reducer = (state, action) => {
         alertText: action.payload.msg,
       }
     }
+
+    if (action.type === SETUP_BUYER_BEGIN) {
+      return { ...state, isLoading: true }
+    }
+    if (action.type === SETUP_BUYER_SUCCESS) {
+      return {
+        ...state,
+        isLoading: false,
+        buyer: action.payload.buyer,
+        userAddress: action.payload.address,
+        showAlert: true,
+        alertType: 'success',
+        alertText: action.payload.alertText,
+      }
+    }
+    if (action.type === SETUP_BUYER_ERROR) {
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'danger',
+        alertText: action.payload.msg,
+      }
+    }
   
     if (action.type === LOGOUT_USER) {
+      return {
+        ...initialState,
+        userLoading: false,
+      };
+    }
+
+    if (action.type === LOGOUT_BUYER) {
       return {
         ...initialState,
         userLoading: false,
@@ -369,6 +406,18 @@ const reducer = (state, action) => {
       total = parseFloat(total.toFixed(2))
   
       return { ...state, total, amount }
+    }
+
+    if (action.type === GET_CURRENT_BUYER_BEGIN) {
+        return { ...state, userLoading: true, showAlert: false };
+      }
+    if (action.type === GET_CURRENT_BUYER_SUCCESS) {
+      return {
+          ...state,
+          userLoading: false,
+          buyer: action.payload.buyer,
+          userAddress: action.payload.address
+      };
     }    
 
 

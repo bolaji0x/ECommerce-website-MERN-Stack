@@ -13,6 +13,7 @@ import ProductContainer from './ProductContainer'
 import SingleProductDetail from './SingleProductDetail'
 import Orders from './Orders'
 import OrderDetails from './OrderDetails'
+import BuyerProfile from './BuyerProfile'
 export { 
     Alert,
     FormRow,
@@ -28,5 +29,6 @@ export {
     ProductContainer,
     SingleProductDetail,
     Orders,
-    OrderDetails
+    OrderDetails,
+    BuyerProfile
 }

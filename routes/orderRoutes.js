@@ -10,6 +10,8 @@ const {
   updateOrder,
 } = require('../controllers/orderController');
 
+//const {auth, authBuyer} = require('../middleware/auth.js');
+
 router
   .route('/')
   .post(createOrder)

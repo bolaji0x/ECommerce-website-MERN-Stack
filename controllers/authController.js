@@ -1,7 +1,7 @@
 const User = require ('../models/User.js')
 const { StatusCodes } = require ('http-status-codes')
 const { BadRequestError, UnAuthenticatedError } = require ('../errors/index.js')
-const attachCookie = require('../utils/attachCookie.js')
+const {attachCookie, attachBuyerCookie} = require('../utils/attachCookie.js')
 const Token = require('../models/Token');
 
 const cloudinary = require("cloudinary")
@@ -98,6 +98,88 @@ const getCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, address: user.address });
 }
 
+
+const registerBuyer = async (req, res) => {
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  const imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload_large(images[i], {
+      folder: "products",
+      chunk_size: 6000000
+    });
+
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
+  const { email, username, password } = req.body
+
+  if (!email || !username || !password ) {
+    throw new BadRequestError('please provide all values')
+  }
+  const userAlreadyExists = await User.findOne({ email })
+  if (userAlreadyExists) {
+    throw new BadRequestError('Email already in use')
+  }
+  
+  const buyer = await User.create(req.body)
+  
+  const token = buyer.createJWT()
+  attachBuyerCookie({ res, token });
+  
+  res.status(StatusCodes.CREATED).json({
+    buyer: {
+        images: buyer.images,
+        firstName: buyer.firstName,
+        lastName: buyer.lastName,
+        username: buyer.username,
+        email: buyer.email,
+        phoneNo: buyer.phoneNo,
+        address: buyer.address
+      },
+      address: buyer.address
+  })
+}
+
+const loginBuyer = async (req, res) => {
+  const { email, password } = req.body
+  if (!email || !password) {
+    throw new BadRequestError('Please provide all values')
+  }
+  const buyer = await User.findOne({ email }).select('+password')
+  if (!buyer) {
+    throw new UnAuthenticatedError('Invalid Credentials')
+  }
+
+  const isPasswordCorrect = await buyer.comparePassword(password)
+  if (!isPasswordCorrect) {
+    throw new UnAuthenticatedError('Invalid Credentials')
+  }
+
+  const token = buyer.createJWT()
+  attachBuyerCookie({ res, token });
+  buyer.password = undefined
+  res.status(StatusCodes.OK).json({ buyer, address: buyer.address })
+}
+
+const getCurrentBuyer = async (req, res) => {
+  const buyer = await User.findOne({ _id: req.user.userId });
+  res.status(StatusCodes.OK).json({ buyer, address: buyer.address });
+}
+
+
+
+
 const logout = async (req, res) => {
   //await Token.findOneAndDelete({ user: req.user.userId });
 
@@ -117,7 +199,10 @@ const logout = async (req, res) => {
 module.exports = { 
   register,
   login,
-  getCurrentUser, 
+  getCurrentUser,
+  registerBuyer,
+  loginBuyer, 
+  getCurrentBuyer,
   logout
 }
 

@@ -43,6 +43,9 @@ import {
   GET_SINGLEORDER_BEGIN,
   GET_SINGLEORDER_SUCCESS,
   GET_SINGLEORDER_ERROR,
+  SETUP_BUYER_BEGIN,
+  SETUP_BUYER_SUCCESS,
+  SETUP_BUYER_ERROR,
   
  
 
@@ -158,6 +161,28 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: SETUP_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      })
+    }
+    clearAlert()
+  }
+
+  const setupBuyer = async ({currentUser, endPoint, alertText}) => {
+    dispatch({ type: SETUP_BUYER_BEGIN })
+    try {
+      const config = {
+        headers: { "Content-Type": "application/json" },
+    };
+      const { data } = await axios.post(`/api/v1/auth/buyer/${endPoint}`, currentUser, config)
+
+      const { buyer, address } = data
+      dispatch({
+        type: SETUP_BUYER_SUCCESS,
+        payload: { buyer, address, alertText },
+      })
+    } catch (error) {
+      dispatch({
+        type: SETUP_BUYER_ERROR,
         payload: { msg: error.response.data.msg },
       })
     }
@@ -420,7 +445,7 @@ const AppProvider = ({ children }) => {
         ...state,
         displayAlert,
         setupUser,
-    
+        setupBuyer,
         logoutUser,
         handleChange,
         clearValues,

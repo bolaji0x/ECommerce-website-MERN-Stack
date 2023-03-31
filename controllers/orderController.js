@@ -65,11 +65,13 @@ const createOrder = async (req, res) => {
 
   res.status(StatusCodes.CREATED).json({ order, clientSecret: order.clientSecret });
 };
+
 const getAllOrders = async (req, res) => {
 
   const orders = await Order.find({});
   res.status(StatusCodes.OK).json({ orders, count: orders.length });
 };
+
 const getSingleOrder = async (req, res) => {
   const { id: orderId } = req.params;
   const order = await Order.findOne({ _id: orderId }).populate('createdBy');
@@ -79,13 +81,13 @@ const getSingleOrder = async (req, res) => {
   checkPermissions(req.user, order.createdBy);
   res.status(StatusCodes.OK).json({ order });
 };
+
 const getCurrentUserOrders = async (req, res) => {
   const { sort } = req.query
   const queryObject = {
     createdBy: req.user.userId,
   };
   
-
   // NO AWAIT
 
   let result = Order.find(queryObject).populate('createdBy', '_id username lastName email');

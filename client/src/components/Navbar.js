@@ -28,7 +28,7 @@ const Navbar = () => {
                     <li><Link to='/signup' className='eachn-link'>Store Location</Link></li>
                     <li><Link to='/signup' className='eachn-link'>Sell on Konga</Link></li>
                     <li><Link to='/signup' className='eachn-link'>Help</Link></li>
-                    <li><Link to='/signup' className='eachn-link'>Login / Signup</Link></li>
+                    <li><Link to='/signup/buyer' className='eachn-link'>Login / Signup</Link></li>
                 </ul>
                 <button onClick={toggleCart} className='hb-btn'>
                     <BiCart className='hn-icon' />
@@ -54,8 +54,8 @@ const Navbar = () => {
         <div className={!showSidebar ? 'sh-container' : 'sh-container showsh'}>
             <div className='sh-content'>
                 <div className='lsbtn-container'>
-                    <button className='ls-btn'><Link className='ls-link' to='/'>Login</Link></button>
-                    <button className='ls-btn'><Link className='ls-link' to='/'>Signup</Link></button>
+                    <button className='ls-btn'><Link className='ls-link' to='/signup/buyer'>Login</Link></button>
+                    <button className='ls-btn'><Link className='ls-link' to='/signup/buyer'>Signup</Link></button>
                 </div>
                 <ul className='sh-list'>
                     {categories.map((category, index) => {

@@ -15,10 +15,10 @@ const {
   
 } = require('../controllers/userController.js')
 
-const authenticateUser = require('../middleware/auth.js');
+const {auth} = require('../middleware/auth.js');
 
 
-router.route('/updateUser').put(authenticateUser, updateUser)
+router.route('/updateUser').put(auth, updateUser)
 router.route('/:id').get(getSingleUser)
 
 module.exports = router

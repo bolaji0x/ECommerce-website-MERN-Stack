@@ -5,7 +5,9 @@
 }
 
 /* fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Roboto+Condensed:wght@400;700&display=swap');
+
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 html {
   font-size: 100%;
@@ -34,6 +36,7 @@ img {
   --green-300: #66d374;
   --green-400: #b2e8b9;
   --green-500: #e5f7e7;
+  --green-600: #33b27b;
 
   /* blue */
   --blue-100: #3167eb;
@@ -64,9 +67,7 @@ img {
   --white: #fff;
   --border-color: #eaf1fb;
 
-  /* fonts  */
-  --headingFont: 'Roboto Condensed', Sans-Serif;
-  --bodyFont: 'Cabin', Sans-Serif;
+  
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
   --thick-font: 400;
@@ -98,7 +99,7 @@ img {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--bodyFont);
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
@@ -286,21 +287,18 @@ ul, li {
   padding: 2rem 1rem;
   box-shadow: var(--shadow-3);
   border-radius: var(--borderRadius);
-  max-width: 600px;
+  max-width: 500px;
   width: calc(100% - 2rem);
-  height: 70vh;
+  height: 100%;
   margin-top: 4rem;
   margin-left: 1rem;
-  margin-right: 1rem;
+  margin-right: 2rem;
 }
 
-.form-section {
-  idth: 100%;
-  eight: 80vh;
-}
 
 .register-title {
-  font-size: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
   margin-bottom: 5px;
   font-weight: var(--thicker-font);
 }
@@ -371,6 +369,10 @@ ul, li {
   font-weight: var(--thick-font);
 }
 
+.login-btn-green {
+  background-color: var(--green-600);
+}
+
 .login-btn:disabled {
   background-color: var(--blue-300);
 }
@@ -383,6 +385,10 @@ ul, li {
 .enq-name {
   font-size: .8rem;
   margin-right: .4rem;
+}
+
+.buyer-btns {
+  color: var(--green-600);
 }
 
 /* ======= Alert Section =====*/
@@ -977,7 +983,7 @@ flex-direction: column;
 
 .hb-btn {
   color: var(--white);
-  background-color: var(--green-100);
+  background-color: var(--green-600);
   display: flex;
   align-items: center;
   padding: .5rem;
@@ -1643,7 +1649,7 @@ td {
 }
 
 .checkout-btn {
-  background-color: var(--green-100);
+  background-color: var(--green-600);
   color: var(--white);
   width: 100%;
   padding: .5rem;
@@ -1657,6 +1663,7 @@ td {
   body {
     margin: 0;
   }
+
   
   /* =========== Sidebar =============*/
 
