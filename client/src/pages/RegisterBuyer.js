@@ -9,12 +9,13 @@ const initialState = {
   password: '',
   firstName: '',
   lastName: '',
+  role: 'user',
   isMember: true
 }
 
 const RegisterBuyer = () => {
   const navigate = useNavigate()
-  const { buyer, setupBuyer, showAlert, isLoading, displayAlert } = useAppContext()
+  const { user, setupUser, showAlert, isLoading, displayAlert } = useAppContext()
 
   const [values, setValues] = useState(initialState)
   const [images, setImages] = useState([]);
@@ -32,7 +33,7 @@ const RegisterBuyer = () => {
 
     const {email, username, password, firstName, lastName, isMember} = values
 
-    if(!email || !password || (!isMember && !username && !firstName && !lastName)) {
+    if(!username || !password || (!isMember && !email && !firstName && !lastName)) {
       displayAlert()
       return
     }
@@ -43,18 +44,19 @@ const RegisterBuyer = () => {
     currentUser.set("password", values.password);
     currentUser.set("firstName", values.firstName);
     currentUser.set("lastName", values.lastName);
+    currentUser.set("role", values.role);
 
     images.forEach((image) => {
       currentUser.append("images", image);
     });
     if (values.isMember) {
-      setupBuyer({
+      setupUser({
         currentUser,
         endPoint: 'login',
         alertText: 'Login Successful! Redirecting...',
       })
     } else {
-      setupBuyer({
+      setupUser({
         currentUser,
         endPoint: 'register',
         alertText: 'User Created! Redirecting...',
@@ -83,16 +85,16 @@ const RegisterBuyer = () => {
   }
   
   useEffect(() => {
-    if (buyer) {
+    if (user) {
       setTimeout(() => {
         navigate('/buyer')
       }, 3000)
     }
-  }, [buyer, navigate])
+  }, [user, navigate])
 
   return (
     <React.Fragment>
-      {buyer && <Navigate to='/buyer' />}
+      {user && <Navigate to='/buyer' />}
       <section className='b-container'>
       <div>
         <form 
@@ -120,13 +122,13 @@ const RegisterBuyer = () => {
                 </div>
             </div>
             
-            {/* username */}
+            {/* email */}
             <FormRow
-              type='text'
-              name='username'
-              placeholder='Username'
-              value={values.username}
-              labelText='Username'
+              type='email'
+              name='email'
+              placeholder='Email'
+              value={values.email}
+              labelText='Email'
               handleChange={handleChange}
             />
             {/* firstName */}
@@ -151,15 +153,16 @@ const RegisterBuyer = () => {
         </div>
         )}
         
-        {/* email */}
+        {/* username */}
         <FormRow
-              type='email'
-              name='email'
-              placeholder='Email'
-              value={values.email}
-              labelText='Email'
-              handleChange={handleChange}
-            />
+            type='text'
+            name='username'
+            placeholder='Username'
+            value={values.username}
+            labelText='Username'
+            handleChange={handleChange}
+            
+        />
       {/* password */}
       <FormRow
         type='password'

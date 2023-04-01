@@ -13,9 +13,12 @@ const {
   register,
   login,
   getCurrentUser,
+  /*
   registerBuyer,
   loginBuyer,
   getCurrentBuyer,
+
+  */
   logout
   
 } = require('../controllers/authController.js')
@@ -24,12 +27,15 @@ const {auth, authBuyer} = require('../middleware/auth.js');
 
 router.route('/register').post(register)
 router.route('/login').post(login)
+/*
 router.route('/buyer/register').post(registerBuyer)
 router.route('/buyer/login').post(loginBuyer)
+*/
 router.get('/logout', logout);
 
 router.route('/getCurrentUser').get(auth, getCurrentUser);
+/*
 router.route('/getCurrentBuyer').get(authBuyer, getCurrentBuyer);
-
+*/
 
 module.exports = router

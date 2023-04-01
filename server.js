@@ -27,7 +27,7 @@ const orderRouter = require('./routes/orderRoutes');
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js');
 const errorHandlerMiddleware = require('./middleware/error-handler.js');
-const {auth} = require('./middleware/auth.js');
+const {auth, authBuyer} = require('./middleware/auth.js');
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
@@ -55,7 +55,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter)
-app.use('/api/v1/orders', auth, orderRouter);
+app.use('/api/v1/orders', orderRouter);
 // only when ready to deploy
 /*
 app.use(express.static(path.join(__dirname, './client/build')));

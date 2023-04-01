@@ -91,6 +91,7 @@ const reducer = (state, action) => {
       }
     }
 
+    /*
     if (action.type === SETUP_BUYER_BEGIN) {
       return { ...state, isLoading: true }
     }
@@ -114,13 +115,17 @@ const reducer = (state, action) => {
         alertText: action.payload.msg,
       }
     }
-  
+    
+    */
     if (action.type === LOGOUT_USER) {
       return {
         ...initialState,
         userLoading: false,
       };
     }
+
+
+    /*
 
     if (action.type === LOGOUT_BUYER) {
       return {
@@ -129,6 +134,9 @@ const reducer = (state, action) => {
       };
     }
 
+    */
+
+    
     if(action.type === CLEAR_VALUES) {
         const initialState = {
           isLoading: false,
@@ -263,12 +271,6 @@ const reducer = (state, action) => {
         alertText: 'Product Deleted!', 
       }
     }
-
-    
-
-    
-
-
 
 
     if (action.type === CREATE_ORDER_BEGIN) {
@@ -408,6 +410,9 @@ const reducer = (state, action) => {
       return { ...state, total, amount }
     }
 
+    
+
+    /*
     if (action.type === GET_CURRENT_BUYER_BEGIN) {
         return { ...state, userLoading: true, showAlert: false };
       }
@@ -419,7 +424,8 @@ const reducer = (state, action) => {
           userAddress: action.payload.address
       };
     }    
-
+    
+    */
 
     if (action.type === GET_CURRENT_USER_BEGIN) {
         return { ...state, userLoading: true, showAlert: false };

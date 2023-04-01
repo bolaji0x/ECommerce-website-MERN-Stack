@@ -17,7 +17,6 @@ function App() {
           </ProtectedRoute>
           }
         >
-          
           <Route index element={<Home/>} />
           <Route path='add-product' element={<AddProduct />} />
           <Route path='all-products' element={<AdminProducts />} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../context/appContext'
 import { BiX } from 'react-icons/bi'
 import CartItem from './CartItem'
@@ -6,7 +6,7 @@ import { PaystackButton } from 'react-paystack';
 
 
 const CartContainer = () => {
-  const { showCart, toggleCart, cart, total, createOrder } = useAppContext()
+  const { showCart, toggleCart, cart, total, createOrder, getCurrentUser } = useAppContext()
   const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
   const amount = total;
   const [email, setEmail] = useState('testUser@test.com');
@@ -37,6 +37,12 @@ const CartContainer = () => {
     onClose: () => alert("Wait! You need this oil, don't go!!!!"),
   };
 
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+  
+  
+
   if (cart.length === 0) {
     return (
       <section className={
@@ -57,6 +63,7 @@ const CartContainer = () => {
     )
   }
     
+  
   
   return (
     <aside className={

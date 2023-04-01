@@ -34,16 +34,22 @@ const register = async (req, res) => {
     }
   
     req.body.images = imagesLinks;
-    const { email, username, password } = req.body
+    const { email, username, firstName, lastName, password, role } = req.body
   
     if (!email || !username || !password ) {
       throw new BadRequestError('please provide all values')
     }
     const userAlreadyExists = await User.findOne({ email })
+
     if (userAlreadyExists) {
       throw new BadRequestError('Email already in use')
     }
-    const user = await User.create(req.body)
+
+    // first registered user is an admin
+    const isFirstAccount = (await User.countDocuments({})) === 0;
+    const userRole = role || (isFirstAccount ? 'admin' : 'user');
+
+    const user = await User.create({ email, username, password, firstName, lastName, role: userRole })
   
     const existingToken = user.createJWT()
 
@@ -60,7 +66,8 @@ const register = async (req, res) => {
           username: user.username,
           email: user.email,
           phoneNo: user.phoneNo,
-          address: user.address
+          address: user.address,
+          role: user.role
         },
         address: user.address
     })
@@ -98,7 +105,7 @@ const getCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, address: user.address });
 }
 
-
+/*
 const registerBuyer = async (req, res) => {
   let images = [];
   if (typeof req.body.images === "string") {
@@ -177,7 +184,7 @@ const getCurrentBuyer = async (req, res) => {
   res.status(StatusCodes.OK).json({ buyer, address: buyer.address });
 }
 
-
+*/
 
 
 const logout = async (req, res) => {
@@ -200,9 +207,11 @@ module.exports = {
   register,
   login,
   getCurrentUser,
+  /*
   registerBuyer,
   loginBuyer, 
   getCurrentBuyer,
+  */
   logout
 }
 

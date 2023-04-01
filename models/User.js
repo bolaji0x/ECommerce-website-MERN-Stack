@@ -56,6 +56,11 @@ const UserSchema = new mongoose.Schema({
         maxlength: 20,
         default: 'my city',
     },
+    role: {
+      type: String,
+      enum: ['admin', 'user'],
+      default: 'user',
+    }
     
 })
 
@@ -67,7 +72,7 @@ UserSchema.pre('save', async function () {
   })
   
   UserSchema.methods.createJWT = function () {
-    return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    return jwt.sign({ userId: this._id, role: this.role }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_LIFETIME,
     })
   }

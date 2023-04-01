@@ -46,6 +46,9 @@ import {
   SETUP_BUYER_BEGIN,
   SETUP_BUYER_SUCCESS,
   SETUP_BUYER_ERROR,
+  GET_CURRENT_BUYER_BEGIN,
+  GET_CURRENT_BUYER_SUCCESS,
+  LOGOUT_BUYER,
   
  
 
@@ -113,6 +116,7 @@ const AppProvider = ({ children }) => {
     }
   );
 
+
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT })
     clearAlert()
@@ -129,6 +133,8 @@ const AppProvider = ({ children }) => {
     await authFetch.get('/auth/logout');
     dispatch({ type: LOGOUT_USER });
   };
+
+  
   const toggleSidebar = () => {
     dispatch({ type: TOGGLE_SIDEBAR });
   };
@@ -167,28 +173,10 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
-  const setupBuyer = async ({currentUser, endPoint, alertText}) => {
-    dispatch({ type: SETUP_BUYER_BEGIN })
-    try {
-      const config = {
-        headers: { "Content-Type": "application/json" },
-    };
-      const { data } = await axios.post(`/api/v1/auth/buyer/${endPoint}`, currentUser, config)
+  
+  
 
-      const { buyer, address } = data
-      dispatch({
-        type: SETUP_BUYER_SUCCESS,
-        payload: { buyer, address, alertText },
-      })
-    } catch (error) {
-      dispatch({
-        type: SETUP_BUYER_ERROR,
-        payload: { msg: error.response.data.msg },
-      })
-    }
-    clearAlert()
-  }
-
+  
   
   const createProduct = async (productData) => {
     dispatch({ type: CREATE_PRODUCT_BEGIN })
@@ -356,6 +344,7 @@ const AppProvider = ({ children }) => {
         type: CREATE_ORDER_ERROR,
         payload: { msg: error.response.data.msg },
       });
+      console.log(error)
     }
     clearAlert();
   }
@@ -383,7 +372,6 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
-
   const getSingleOrder = async (id) => {
     dispatch({ type: GET_SINGLEORDER_BEGIN })
     try {
@@ -406,7 +394,24 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  /*
+  const getCurrentBuyer = async () => {
+    dispatch({ type: GET_CURRENT_BUYER_BEGIN });
+    try {
+      const { data } = await authFetchB('/auth/getCurrentBuyer');
+      const { buyer, address } = data;
 
+      dispatch({
+        type: GET_CURRENT_BUYER_SUCCESS,
+        payload: { buyer, address }
+      });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      logoutBuyer();;
+    }
+  };
+
+  */
   const getCurrentUser = async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
     try {
@@ -424,7 +429,6 @@ const AppProvider = ({ children }) => {
   };
 
 
-
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(state.cart));
   }, [state.cart, state.amount]);
@@ -434,18 +438,18 @@ const AppProvider = ({ children }) => {
     dispatch({ type: GET_TOTALS })
   }, [state.cart])
 
+  
   useEffect(() => {
     getCurrentUser();
     // eslint-disable-next-line
   }, []);
-  
+
   return (
     <AppContext.Provider
       value={{
         ...state,
         displayAlert,
         setupUser,
-        setupBuyer,
         logoutUser,
         handleChange,
         clearValues,
@@ -463,7 +467,9 @@ const AppProvider = ({ children }) => {
         toggleAmount,
         createOrder,
         getOrders,
-        getSingleOrder
+        getSingleOrder,
+        //setupBuyer,
+        getCurrentUser
     
       }}
     >

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-
 const {
   getAllOrders,
   getSingleOrder,
@@ -10,18 +9,18 @@ const {
   updateOrder,
 } = require('../controllers/orderController');
 
-//const {auth, authBuyer} = require('../middleware/auth.js');
+const {auth, authBuyer, authorizePermissions} = require('../middleware/auth.js');
 
 router
   .route('/')
-  .post(createOrder)
-  .get(getAllOrders);
+  .post(auth, createOrder)
+  .get([auth, authorizePermissions('admin')], getAllOrders);
 
-router.route('/showAllMyOrders').get(getCurrentUserOrders);
+router.route('/showAllMyOrders').get(auth, getCurrentUserOrders);
 
 router
   .route('/:id')
-  .get(getSingleOrder)
-  .patch(updateOrder);
+  .get([auth, authorizePermissions('admin')], getSingleOrder)
+  .patch([auth, authorizePermissions('admin')], updateOrder);
 
 module.exports = router;

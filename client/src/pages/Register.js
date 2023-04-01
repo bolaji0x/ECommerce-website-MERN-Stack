@@ -9,6 +9,7 @@ const initialState = {
   password: '',
   firstName: '',
   lastName: '',
+  role: 'admin',
   isMember: true
 }
 
@@ -43,6 +44,7 @@ const Register = () => {
     currentUser.set("password", values.password);
     currentUser.set("firstName", values.firstName);
     currentUser.set("lastName", values.lastName);
+    currentUser.set("role", values.role);
 
     images.forEach((image) => {
       currentUser.append("images", image);

@@ -2,15 +2,15 @@ import React from 'react'
 import { useAppContext } from '../context/appContext'
 
 const BuyerProfile = () => {
-    const { buyer } = useAppContext()
+    const { user } = useAppContext()
 
-    if(!buyer) {
+    if(!user) {
         return <h1>Buyer not logged in</h1>
     }
   return (
     <div>
         BuyerProfile
-        <h1>{buyer.username}</h1>
+        <h1>{user.username}</h1>
     </div>
   )
 }
