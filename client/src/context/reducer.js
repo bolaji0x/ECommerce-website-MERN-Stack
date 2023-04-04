@@ -303,7 +303,8 @@ const reducer = (state, action) => {
         ...state,
         isLoading: false,
         orders: action.payload.orders,
-        totalOrders: action.payload.totalOrders
+        totalOrders: action.payload.totalOrders,
+        total: action.payload.total
       }
     }
 

@@ -3,7 +3,7 @@ import { BiCartAlt, BiShoppingBag, BiDotsHorizontalRounded } from "react-icons/b
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/appContext';
 const Dashboard = () => {
-    const {orders, totalOrders, totalProducts, getOrders, getUserProducts} = useAppContext()
+    const {orders, totalOrders, totalProducts, getAdminOrders, getUserProducts} = useAppContext()
 
     const totalOrderPrice = orders.reduce((total, item) => {
         return total + item.total;
@@ -18,7 +18,7 @@ const Dashboard = () => {
     
 
     useEffect(() => {
-        getOrders()
+        getAdminOrders()
         getUserProducts()
         // eslint-disable-next-line
     }, [])

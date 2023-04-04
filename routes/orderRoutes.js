@@ -7,6 +7,7 @@ const {
   getCurrentUserOrders,
   createOrder,
   updateOrder,
+  getSellerOrders,
 } = require('../controllers/orderController');
 
 const {auth, authBuyer, authorizePermissions} = require('../middleware/auth.js');
@@ -17,6 +18,7 @@ router
   .get([auth, authorizePermissions('admin')], getAllOrders);
 
 router.route('/showAllMyOrders').get(auth, getCurrentUserOrders);
+router.route('/showSellerOrders').get(auth, getSellerOrders);
 
 router
   .route('/:id')

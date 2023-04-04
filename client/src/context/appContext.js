@@ -349,7 +349,7 @@ const AppProvider = ({ children }) => {
     clearAlert();
   }
 
-  const getOrders = async () => {
+  const getSellerOrders = async () => {
     const {sort, page} = state
     let url = `/orders/showAllMyOrders?limit=${page*6}&sort=${sort}`
 
@@ -357,13 +357,14 @@ const AppProvider = ({ children }) => {
   
     try {
       const { data } = await authFetch(url)
-      const { orders, totalOrders } = data
+      const { orders, totalOrders, total } = data
       console.log(orders)
       dispatch({
         type: GET_ORDERS_SUCCESS,
         payload: {
           orders,
-          totalOrders
+          totalOrders,
+          total
         },
       })
     } catch (error) {
@@ -466,9 +467,8 @@ const AppProvider = ({ children }) => {
         removeItemFromCart,
         toggleAmount,
         createOrder,
-        getOrders,
+        getSellerOrders,
         getSingleOrder,
-        //setupBuyer,
         getCurrentUser
     
       }}

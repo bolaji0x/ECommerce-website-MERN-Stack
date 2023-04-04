@@ -82,6 +82,7 @@ const getSingleOrder = async (req, res) => {
   res.status(StatusCodes.OK).json({ order });
 };
 
+
 const getCurrentUserOrders = async (req, res) => {
   const { sort } = req.query
   const queryObject = {
@@ -90,7 +91,9 @@ const getCurrentUserOrders = async (req, res) => {
   
   // NO AWAIT
 
-  let result = Order.find(queryObject).populate('createdBy', '_id username lastName email');
+  let result = Order.find(queryObject)
+    .populate('createdBy', '_id username lastName email');
+    
 
   // chain sort conditions
 
@@ -115,6 +118,44 @@ const getCurrentUserOrders = async (req, res) => {
 
   
 };
+
+
+const getSellerOrders = async (req, res) => {
+  const products = await Product.find({ createdBy: req.user.userId }).select('_id');
+  const productIds = products.map((product) => product._id);
+  const orders = await Order.find({ 'orderItems.product': { $in: productIds } }).populate({path: 'orderItems.product', match: { createdBy: req.user.userId }})
+              
+  const filteredOrderItems = orders.reduce((acc, order) => {
+  const orderItems = order.orderItems.filter((item) => {
+    return item.product !== null;
+  });
+  acc.push(...orderItems);
+    return acc;
+  }, []);
+
+  let orderTotal = 0;
+  let totalShippingFee = 0;
+
+  const formattedOrderItems = filteredOrderItems.map((item) => {
+    const total = item.price * item.amount;
+    orderTotal += total;
+    totalShippingFee += item.shippingFee;
+    return { ...item.toObject(), total };
+  });
+
+  const { status, shippingFee } = orders[0];
+  res.status(StatusCodes.OK).json({ 
+    status,
+    shippingFee,
+    totalShippingFee,
+    orders: formattedOrderItems, 
+    totalOrders: filteredOrderItems.length, 
+    total: orderTotal 
+  })
+
+  
+};
+
 const updateOrder = async (req, res) => {
   const { id: orderId } = req.params;
   const { paymentIntentId } = req.body;
@@ -136,6 +177,7 @@ module.exports = {
   getAllOrders,
   getSingleOrder,
   getCurrentUserOrders,
+  getSellerOrders,
   createOrder,
   updateOrder,
 };

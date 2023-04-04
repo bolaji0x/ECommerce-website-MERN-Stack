@@ -3,10 +3,10 @@ import { BiArrowToBottom} from 'react-icons/bi'
 import Orders from './Orders'
 import { useAppContext } from '../context/appContext'
 const OrderContainer = () => {
-  const { orders, getOrders } = useAppContext()
+  const { orders, getSellerOrders } = useAppContext()
 
   useEffect(() => {
-    getOrders()
+    getSellerOrders()
     // eslint-disable-next-line
   }, [])
 

@@ -1,8 +1,10 @@
 import React from 'react'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/appContext';
 
-const Orders = ({_id, createdBy, orderItems, total, status, createdAt}) => {
+const Orders = ({_id, createdBy, orderItems, status, createdAt,}) => {
+  const { total, user } = useAppContext()
 
   const formatDate = (date) => {
     const month = String(new Date(date).getMonth() + 1).padStart(2, '0');
@@ -17,7 +19,7 @@ const Orders = ({_id, createdBy, orderItems, total, status, createdAt}) => {
     <tbody key={_id}  className='order-content'>
       <tr>
         <td className='order-atext lhtc'><Link className='order-link' to={`/order/${_id}`}>{_id.substring(0,3)}</Link></td>
-        <td className='order-btext lhtc'><Link className='order-link' to={`/order/${_id}`}>{createdBy.username} {createdBy.lastName}</Link></td>
+        <td className='order-btext lhtc'><Link className='order-link' to={`/order/${_id}`}>{user?.username} {user?.lastName}</Link></td>
         <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>₦ {total}</Link></td>
         <td><Link><button className='status-btn'>{status}</button></Link></td>
         <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>{formatDate(createdAt)}</Link></td>
