@@ -56,7 +56,7 @@ const getCurrentUserProduct = async (req, res) => {
     
     // setup pagination
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 6;
+    const limit = Number(req.query.limit) || 8;
     const skip = (page - 1) * limit;
 
     result = result.skip(skip).limit(limit);

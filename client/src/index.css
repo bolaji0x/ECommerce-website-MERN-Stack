@@ -22,7 +22,8 @@ img {
 
 :root {
   /* colors */
-
+  --primary-100: #bef8fd;
+  --primary-500: #2cb1bc;
   /* black */
   --black-100: #1c1c1c;
   --black-200: #585757;
@@ -1758,13 +1759,10 @@ td {
     font-size: 1.5rem;
   }
 
-  
 
   .hb-btn {
     visibility: visible;
   }
-
-
 
 
   .lsbtn-container {
@@ -1951,6 +1949,68 @@ td {
   margin-top: 3rem;
 }
 
+
+/*  ====== PageBtn Container ===== */
+
+.btn-wrapper {
+  hight: 9rem;
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  flex-wrap: wrap;
+  gp: 1rem;
+}
+
+.btn-wrap-container {
+  ackground: var(--primary-100);
+  borer-radius: var(--borderRadius);
+}
+.pageBtn {
+  background: var(--white);
+  border-color: var(--border-color);
+  width: 25px;
+  height: 30px;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--black-100);
+  transition: var(--transition);
+  borer-radius: var(--borderRadius);
+  cursor: pointer;
+  argin-left: 5px;
+  adding: .5rem;
+}
+.active {
+  background: var(--blue-100);
+  color: var(--white);
+}
+.prev-btn,
+.next-btn {
+  idth: 25px;
+  height: 30px;
+  padding: .5rem 1rem;
+  background: var(--white);
+  borer-color: var(--border-color);
+  color: var(--black-100);
+  text-transform: capitalize;
+  letter-spacing: var(--letterSpacing);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ap: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: var(--thicker-font);
+  border: 1px solid var(--border-color);
+}
+.prev-btn {
+  border-top-left-radius: var(--borderRadius);
+  border-bottom-left-radius: var(--borderRadius);
+}
+.next-btn {
+  border-top-right-radius: var(--borderRadius);
+  border-bottom-right-radius: var(--borderRadius);
+}
 @media screen and (min-width: 768px) {
   .bd-container,
   .dashboard-page,

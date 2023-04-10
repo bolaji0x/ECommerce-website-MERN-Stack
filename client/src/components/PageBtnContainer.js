@@ -23,12 +23,11 @@ const PageBtnContainer = () => {
     changePage(newPage)
   }
   return (
-    <div>
+    <div className='btn-wrapper'>
       <button className='prev-btn' onClick={prevPage}>
-        <HiChevronDoubleLeft />
-        prev
+        previous
       </button>
-      <div className='tn-container'>
+      <div className='btn-wrap-container'>
         {pages.map((pageNumber) => {
           return (
             <button
@@ -44,7 +43,6 @@ const PageBtnContainer = () => {
       </div>
       <button className='next-btn' onClick={nextPage}>
         next
-        <HiChevronDoubleRight />
       </button>
     </div>
   )

@@ -27,6 +27,16 @@ const AddProduct = () => {
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
+  const clearFormFields = () => {
+    setValues({
+      title: '',
+      description: '',
+      price: 0,
+      category: 'other',
+      categoryType: ['clothes', 'smartphones', 'electronics', 'books', 'sports', 'kids item', 'automobiles','home interior', 'other']
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
       const { title, description,
@@ -40,7 +50,7 @@ const AddProduct = () => {
       images.forEach((image) => {
         myForm.append("images", image);
       });
-      createProduct(myForm);
+      createProduct(myForm, clearFormFields);
       
       
       
