@@ -14,6 +14,7 @@ import SingleProductDetail from './SingleProductDetail'
 import Orders from './Orders'
 import OrderDetails from './OrderDetails'
 import BuyerProfile from './BuyerProfile'
+import CheckoutContainer from './CheckoutContainer'
 export { 
     Alert,
     FormRow,
@@ -30,5 +31,6 @@ export {
     SingleProductDetail,
     Orders,
     OrderDetails,
-    BuyerProfile
+    BuyerProfile,
+    CheckoutContainer
 }

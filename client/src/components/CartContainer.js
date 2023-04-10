@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAppContext } from '../context/appContext'
 import { BiX } from 'react-icons/bi'
 import CartItem from './CartItem'
@@ -6,10 +6,11 @@ import { PaystackButton } from 'react-paystack';
 
 
 const CartContainer = () => {
-  const { showCart, toggleCart, cart, total, createOrder, getCurrentUser } = useAppContext()
+  const { showCart, toggleCart, cart, total, createOrder } = useAppContext()
+  
   const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
   const amount = total;
-  const [email, setEmail] = useState('testUser@test.com');
+  const [email, setEmail] = useState('testUser@email.com');
   const [name, setName] = useState('testUser');
   const [phone, setPhone] = useState('08000000000');
 
@@ -32,14 +33,15 @@ const CartContainer = () => {
       alert(
         `Your purchase was successful! Transaction reference: ${reference}`
       );
+      createOrder()
       resetForm();
     },
-    onClose: () => alert("Wait! You need this oil, don't go!!!!"),
+    onClose: () => {
+      
+      alert("Wait! You need this oil, don't go!!!!")
+    },
   };
 
-  useEffect(() => {
-    getCurrentUser()
-  }, [])
   
   
 
@@ -89,15 +91,9 @@ const CartContainer = () => {
             <div className='ct-texts'>
               <h2 className='subtotal'>Subtotal</h2>
               <h2 className='subtotal'>₦ {total}</h2>
-            </div>
+            </div>          
             
-            <button type='button' onClick={createOrder} className='checkout-btn'> Test Create Order</button>
-            
-            
-            {/*
-            <PaystackButton {...componentProps} className='checkout-btn' />
-
-            */}
+            <PaystackButton {...componentProps} className='checkout-btn' /> 
           
           </footer>
     </aside>

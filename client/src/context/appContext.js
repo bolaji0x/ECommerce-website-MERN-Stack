@@ -43,12 +43,7 @@ import {
   GET_SINGLEORDER_BEGIN,
   GET_SINGLEORDER_SUCCESS,
   GET_SINGLEORDER_ERROR,
-  SETUP_BUYER_BEGIN,
-  SETUP_BUYER_SUCCESS,
-  SETUP_BUYER_ERROR,
-  GET_CURRENT_BUYER_BEGIN,
-  GET_CURRENT_BUYER_SUCCESS,
-  LOGOUT_BUYER,
+  CHANGE_PAGE,
   
  
 
@@ -69,6 +64,7 @@ const initialState = {
   title: '',
   description: '',
   price: 0,
+  category: '',
   
   sort: 'latest',
   page: 1,
@@ -77,14 +73,12 @@ const initialState = {
   product: null,
   products: [],
   totalProducts: 0,
+  numOfPages: 1,
 
   order: null,
   cart: JSON.parse(localStorage.getItem('cart')) || [],
   total: 0,
   amount: 0,
-  tax: 30,
-  shippingFee: 15,
-  items: JSON.parse(localStorage.getItem('cart')) || [],
   orders: [],
   totalOrders: 0
 
@@ -150,6 +144,9 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_VALUES })
   }
 
+  const changePage = (page) => {
+    dispatch({ type: CHANGE_PAGE, payload: { page } });
+  };
 
   const setupUser = async ({currentUser, endPoint, alertText}) => {
     dispatch({ type: SETUP_USER_BEGIN })
@@ -172,13 +169,8 @@ const AppProvider = ({ children }) => {
     }
     clearAlert()
   }
-
   
-  
-
-  
-  
-  const createProduct = async (productData) => {
+  const createProduct = async (productData, clearFormFields) => {
     dispatch({ type: CREATE_PRODUCT_BEGIN })
     try {
       const config = {
@@ -187,7 +179,7 @@ const AppProvider = ({ children }) => {
       const { data } = await authFetch.post('/products', productData, config)
       const {product} = data
       dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: {product}})
-      dispatch({ type: CLEAR_VALUES })
+      clearFormFields();
     } catch (error) {
       if (error.response.status === 401) return
       dispatch({
@@ -245,19 +237,20 @@ const AppProvider = ({ children }) => {
   
   const getUserProducts = async () => {
     const {sort, page} = state
-    let url = `/products?limit=${page*6}&sort=${sort}`
+    let url = `/products?page=${page}&sort=${sort}`
 
     dispatch({ type: GET_AUTHPRODUCTS_BEGIN })
   
     try {
       const { data } = await authFetch(url)
-      const { products, totalProducts } = data
+      const { products, totalProducts, numOfPages } = data
       console.log(products)
       dispatch({
         type: GET_AUTHPRODUCTS_SUCCESS,
         payload: {
           products,
-          totalProducts
+          totalProducts,
+          numOfPages
         },
       })
     } catch (error) {
@@ -330,11 +323,9 @@ const AppProvider = ({ children }) => {
   const createOrder = async () => {
     dispatch({ type: CREATE_ORDER_BEGIN });
     try {
-      const { tax, shippingFee, items } = state;
+      const { cart } = state;
       await authFetch.post('/orders', {
-        tax,
-        shippingFee,
-        items
+        items: cart
       });
       dispatch({ type: CREATE_ORDER_SUCCESS });
       dispatch({ type: CLEAR_CART })
@@ -351,22 +342,22 @@ const AppProvider = ({ children }) => {
 
   const getSellerOrders = async () => {
     const {sort, page} = state
-    let url = `/orders/showAllMyOrders?limit=${page*6}&sort=${sort}`
+    let url = `/orders/showSellerOrders`
 
     dispatch({ type: GET_ORDERS_BEGIN })
   
     try {
       const { data } = await authFetch(url)
-      const { orders, totalOrders, total } = data
-      console.log(orders)
+      const { orders, totalOrders,  } = data
+      
       dispatch({
         type: GET_ORDERS_SUCCESS,
         payload: {
           orders,
           totalOrders,
-          total
         },
       })
+      console.log(orders)
     } catch (error) {
         logoutUser();
     }
@@ -395,24 +386,7 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
-  /*
-  const getCurrentBuyer = async () => {
-    dispatch({ type: GET_CURRENT_BUYER_BEGIN });
-    try {
-      const { data } = await authFetchB('/auth/getCurrentBuyer');
-      const { buyer, address } = data;
-
-      dispatch({
-        type: GET_CURRENT_BUYER_SUCCESS,
-        payload: { buyer, address }
-      });
-    } catch (error) {
-      if (error.response.status === 401) return;
-      logoutBuyer();;
-    }
-  };
-
-  */
+  
   const getCurrentUser = async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
     try {
@@ -454,6 +428,7 @@ const AppProvider = ({ children }) => {
         logoutUser,
         handleChange,
         clearValues,
+        changePage,
         toggleSidebar,
         createProduct,
         getProducts,

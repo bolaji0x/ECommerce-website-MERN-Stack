@@ -1,14 +1,16 @@
+
 import React, { useEffect } from 'react'
 import { BiCartAlt, BiShoppingBag, BiDotsHorizontalRounded } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/appContext';
 const Dashboard = () => {
-    const {orders, totalOrders, totalProducts, getAdminOrders, getUserProducts} = useAppContext()
+    const {orders, totalOrders, totalProducts, getSellerOrders, getUserProducts} = useAppContext()
 
+    {/*
     const totalOrderPrice = orders.reduce((total, item) => {
         return total + item.total;
     }, 0);
-
+    */}
     const formatDate = (date) => {
         const month = String(new Date(date).getMonth() + 1).padStart(2, '0');
         const day = String(new Date(date).getDate()).padStart(2, '0');
@@ -16,9 +18,10 @@ const Dashboard = () => {
         return `${month}.${day}.${year}`
       }
     
+    
 
     useEffect(() => {
-        getAdminOrders()
+        getSellerOrders()
         getUserProducts()
         // eslint-disable-next-line
     }, [])
@@ -31,7 +34,7 @@ const Dashboard = () => {
                     <button className='dollar-btn'>₦</button>
                     <div className='dlh-grid'>
                         <label className='dlh-name'>Total Sales</label>
-                        <p className='dlh-price'>₦ {totalOrderPrice.toLocaleString()}</p>
+                        <p className='dlh-price'>₦ {/* {totalOrderPrice.toLocaleString()} */}</p>
                     </div>
                 </div>
 
@@ -57,7 +60,8 @@ const Dashboard = () => {
                 <h1 className='page-title'>Latest Orders</h1>
                     <table className='order-table od-table'>
                     {orders.map((order) => {
-                        const {_id, createdBy, total, status, createdAt} = order
+                        const { _id, total, status, createdBy, createdAt} = order
+                        
                     return (
                         <tbody key={_id}  className='order-content'>
                         <tr>
@@ -65,7 +69,7 @@ const Dashboard = () => {
                           <td className='order-btext lhtc'><Link className='order-link' to={`/order/${_id}`}>{createdBy.username} {createdBy.lastName}</Link></td>
                           <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>₦ {total}</Link></td>
                           <td><Link><button className='status-btn'>{status}</button></Link></td>
-                          <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>{formatDate(createdAt)}</Link></td>
+                          <td className='order-atext'><Link className='order-link' to={`/order/${_id}`}>{formatDate(createdAt)}</Link></td> 
                           <td><button><BiDotsHorizontalRounded className='order-dots' /></button></td>
                         </tr>
                       </tbody>
@@ -73,7 +77,7 @@ const Dashboard = () => {
                         
                     )
                 })}
-                </table>
+                    </table>
                 
                 {/*
                 <div className='order-box'>
@@ -92,12 +96,15 @@ const Dashboard = () => {
                         
                     </div>
                 </div>
+*/}
 
-                */}
+               
             </div>
-        </div>
-    </>
-  )
+            
+       </div>
+   </>
+ )
 }
 
 export default Dashboard
+

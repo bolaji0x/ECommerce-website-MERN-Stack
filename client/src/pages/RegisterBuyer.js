@@ -87,14 +87,14 @@ const RegisterBuyer = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate('/buyer')
+        navigate('/shop')
       }, 3000)
     }
   }, [user, navigate])
 
   return (
     <React.Fragment>
-      {user && <Navigate to='/buyer' />}
+      {user && <Navigate to='/shop' />}
       <section className='b-container'>
       <div>
         <form 

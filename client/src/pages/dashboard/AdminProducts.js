@@ -1,6 +1,9 @@
 import React from 'react'
 import { AdminProductContainer } from '../../components'
+import PageBtnContainer from '../../components/PageBtnContainer'
+import { useAppContext } from '../../context/appContext'
 const AdminProducts = () => {
+  const { numOfPages } = useAppContext()
   return (
     <>
       <section className='list-container'>
@@ -22,6 +25,7 @@ const AdminProducts = () => {
           
         </div>
       </section>
+      {numOfPages > 1 && <PageBtnContainer />}
     </>
   )
 }

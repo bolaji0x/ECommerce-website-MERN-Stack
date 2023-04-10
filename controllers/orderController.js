@@ -11,19 +11,16 @@ const fakeStripeAPI = async ({ amount, currency }) => {
 };
 
 const createOrder = async (req, res) => {
-  const { items: cartItems, tax, shippingFee } = req.body;
+  const { items: cartItems } = req.body;
 
   if (!cartItems || cartItems.length < 1) {
     throw new CustomError.BadRequestError('No cart items provided');
   }
-  if (!tax || !shippingFee) {
-    throw new CustomError.BadRequestError(
-      'Please provide tax and shipping fee'
-    );
-  }
+
 
   let orderItems = [];
   let subtotal = 0;
+  let shippingFee = 0;
 
   for (const item of cartItems) {
     const dbProduct = await Product.findOne({ _id: item.product });
@@ -45,19 +42,33 @@ const createOrder = async (req, res) => {
     // calculate subtotal
     subtotal += item.amount * price;
   }
+
+  // calculate shippingFee
+  const numberOfItems = cartItems.reduce((total, item) => total + item.amount, 0);
+  const shippingFeePerItem = 500;
+  shippingFee = Math.min(numberOfItems * shippingFeePerItem, 5000);
+
+  // calculate tax of 7.5%
+  const taxAmount = subtotal * 0.075;
+
   // calculate total
-  const total = Number(tax) + Number(shippingFee) + Number(subtotal);
+  const total = Number(taxAmount) + Number(shippingFee) + Number(subtotal);
+
+
   // get client secret
   const paymentIntent = await fakeStripeAPI({
     amount: total,
-    currency: 'usd',
+    currency: 'NGN',
   });
+  
+  
+  
 
   const order = await Order.create({
     orderItems,
     total,
     subtotal,
-    tax,
+    tax: taxAmount,
     shippingFee,
     clientSecret: paymentIntent.client_secret,
     createdBy: req.user.userId,
@@ -67,9 +78,8 @@ const createOrder = async (req, res) => {
 };
 
 const getAllOrders = async (req, res) => {
-
   const orders = await Order.find({});
-  res.status(StatusCodes.OK).json({ orders, count: orders.length });
+  res.status(StatusCodes.OK).json({ orders, totalOrders: orders.length });
 };
 
 const getSingleOrder = async (req, res) => {
@@ -78,7 +88,7 @@ const getSingleOrder = async (req, res) => {
   if (!order) {
     throw new CustomError.NotFoundError(`No order with id : ${orderId}`);
   }
-  checkPermissions(req.user, order.createdBy);
+  //checkPermissions(req.user, order.createdBy);
   res.status(StatusCodes.OK).json({ order });
 };
 
@@ -115,15 +125,26 @@ const getCurrentUserOrders = async (req, res) => {
 
   const totalOrders = await Order.countDocuments(queryObject);
   res.status(StatusCodes.OK).json({ orders, totalOrders })
-
   
 };
+
 
 
 const getSellerOrders = async (req, res) => {
   const products = await Product.find({ createdBy: req.user.userId }).select('_id');
   const productIds = products.map((product) => product._id);
-  const orders = await Order.find({ 'orderItems.product': { $in: productIds } }).populate({path: 'orderItems.product', match: { createdBy: req.user.userId }})
+  const orders = await Order.find({ 'orderItems.product': { $in: productIds } })
+    .populate(
+    {path: 'orderItems.product', 
+    populate: {
+    path: 'createdBy',
+    select: '_id username lastName'}, 
+    match: { createdBy: req.user.userId }
+  })
+  .populate({
+    path: 'createdBy',
+    select: '_id username lastName email'
+  });
               
   const filteredOrderItems = orders.reduce((acc, order) => {
   const orderItems = order.orderItems.filter((item) => {
@@ -134,27 +155,38 @@ const getSellerOrders = async (req, res) => {
   }, []);
 
   let orderTotal = 0;
-  let totalShippingFee = 0;
 
   const formattedOrderItems = filteredOrderItems.map((item) => {
     const total = item.price * item.amount;
     orderTotal += total;
-    totalShippingFee += item.shippingFee;
+    
     return { ...item.toObject(), total };
   });
 
-  const { status, shippingFee } = orders[0];
+  const { _id, tax, status, shippingFee, createdBy} = orders[0];
   res.status(StatusCodes.OK).json({ 
-    status,
-    shippingFee,
-    totalShippingFee,
-    orders: formattedOrderItems, 
+    orders, 
     totalOrders: filteredOrderItems.length, 
-    total: orderTotal 
+    
+    
   })
 
   
 };
+
+
+
+/*
+const getSellerOrders = async (req, res) => {
+  const orderItems = await Order.find({ createdBy: req.user.userId }); // Filter order items by current user
+    const productIds = await Product.find({ createdBy: req.user.userId }).distinct('_id'); // Get IDs of products created by current user
+    const orderItemsForCurrentUser = orderItems.filter(item => productIds.includes(item.product.toString())); // Filter order items by product IDs created by current user
+    const totalOrders = orderItemsForCurrentUser.length;
+    return res.status(200).json({ orders: orderItemsForCurrentUser, totalOrders });
+  
+}
+
+*/
 
 const updateOrder = async (req, res) => {
   const { id: orderId } = req.params;

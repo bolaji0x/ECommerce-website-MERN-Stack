@@ -1,6 +1,7 @@
 import { 
   ADDTOCART_BEGIN,
     ADDTOCART_SUCCESS,
+    CHANGE_PAGE,
     CLEAR_ALERT, 
     CLEAR_CART, 
     CLEAR_VALUES, 
@@ -14,8 +15,6 @@ import {
     DISPLAY_ALERT, 
     GET_AUTHPRODUCTS_BEGIN, 
     GET_AUTHPRODUCTS_SUCCESS, 
-    GET_CURRENT_BUYER_BEGIN, 
-    GET_CURRENT_BUYER_SUCCESS, 
     GET_CURRENT_USER_BEGIN, 
     GET_CURRENT_USER_SUCCESS, 
     GET_ORDERS_BEGIN, 
@@ -30,12 +29,8 @@ import {
     GET_SINGLEPRODUCT_SUCCESS, 
     GET_TOTALS, 
     HANDLE_CHANGE, 
-    LOGOUT_BUYER, 
     LOGOUT_USER, 
     REMOVE_ITEM, 
-    SETUP_BUYER_BEGIN, 
-    SETUP_BUYER_ERROR, 
-    SETUP_BUYER_SUCCESS, 
     SETUP_USER_BEGIN,
     SETUP_USER_ERROR,
     SETUP_USER_SUCCESS,
@@ -91,32 +86,7 @@ const reducer = (state, action) => {
       }
     }
 
-    /*
-    if (action.type === SETUP_BUYER_BEGIN) {
-      return { ...state, isLoading: true }
-    }
-    if (action.type === SETUP_BUYER_SUCCESS) {
-      return {
-        ...state,
-        isLoading: false,
-        buyer: action.payload.buyer,
-        userAddress: action.payload.address,
-        showAlert: true,
-        alertType: 'success',
-        alertText: action.payload.alertText,
-      }
-    }
-    if (action.type === SETUP_BUYER_ERROR) {
-      return {
-        ...state,
-        isLoading: false,
-        showAlert: true,
-        alertType: 'danger',
-        alertText: action.payload.msg,
-      }
-    }
     
-    */
     if (action.type === LOGOUT_USER) {
       return {
         ...initialState,
@@ -124,22 +94,14 @@ const reducer = (state, action) => {
       };
     }
 
-
-    /*
-
-    if (action.type === LOGOUT_BUYER) {
-      return {
-        ...initialState,
-        userLoading: false,
-      };
-    }
-
-    */
-
-    
     if(action.type === CLEAR_VALUES) {
         const initialState = {
           isLoading: false,
+          image: '',
+          title: '',
+          description: '',
+          price: 0,
+          category: '',
           product: null
         }
     
@@ -147,6 +109,10 @@ const reducer = (state, action) => {
           ...state, 
           ...initialState
         }
+    }
+
+    if (action.type === CHANGE_PAGE) {
+      return { ...state, page: action.payload.page };
     }
 
     if (action.type === HANDLE_CHANGE) {
@@ -233,7 +199,8 @@ const reducer = (state, action) => {
         ...state,
         isLoading: false,
         products: action.payload.products,
-        totalProducts: action.payload.totalProducts
+        totalProducts: action.payload.totalProducts,
+        numOfPages: action.payload.numOfPages
       }
     }
 
@@ -304,7 +271,7 @@ const reducer = (state, action) => {
         isLoading: false,
         orders: action.payload.orders,
         totalOrders: action.payload.totalOrders,
-        total: action.payload.total
+        //total: action.payload.total
       }
     }
 
@@ -413,20 +380,7 @@ const reducer = (state, action) => {
 
     
 
-    /*
-    if (action.type === GET_CURRENT_BUYER_BEGIN) {
-        return { ...state, userLoading: true, showAlert: false };
-      }
-    if (action.type === GET_CURRENT_BUYER_SUCCESS) {
-      return {
-          ...state,
-          userLoading: false,
-          buyer: action.payload.buyer,
-          userAddress: action.payload.address
-      };
-    }    
-    
-    */
+   
 
     if (action.type === GET_CURRENT_USER_BEGIN) {
         return { ...state, userLoading: true, showAlert: false };

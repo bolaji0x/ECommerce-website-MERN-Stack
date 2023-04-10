@@ -612,7 +612,7 @@ flex-direction: column;
 /* ========= Dasboard Container ======= */
 
 .page-title {
-  margin-bottom: 1rem;
+  margin-bottom: 7px;
 }
 .page-title, .dlh-price {
   font-size: 1rem;
@@ -1212,7 +1212,7 @@ width: 30%;
   padding: 0;
   margin: 0;
   background-color: var(--white);
-  height: 80vh;
+  height: 100%;
 }
 
 .create-product-section {
@@ -1277,6 +1277,11 @@ width: 30%;
   
 }
 
+.no-order {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 4rem;
+}
 .order-head-title {
   display: flex;
   justify-content: space-between;
@@ -1350,7 +1355,7 @@ td {
 
 /*  ========= Order Details ========= */
 .od-section {
-  padding: .5rem;
+  padding: .5rem .75rem;
 }
 
 .od-head {
@@ -1367,7 +1372,7 @@ td {
 
 .order-dcontent {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   grid-gap: .75rem;
   margin-bottom: 1rem;
 }
@@ -1446,7 +1451,7 @@ td {
 }
 
 .tc-text {
-  font-size: 15px;
+  font-size: 13px;
   color: var(--black-100);
 }
 
@@ -1891,6 +1896,60 @@ td {
 }
 
 
+/* ======== Checkout Container ======*/
+
+.checkout-container {
+  box-shadow: var(--shadow-3);
+  background-color: var(--white);
+  padding: 1rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.cc-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cch-title {
+  font-size: 1rem;
+}
+
+.cch-button {
+  color: var(--pink-100);
+}
+
+.ccproduct-cont {
+  display: flex;
+}
+.cc-img {
+ width: 70px;
+ height: 70px;
+ object-fit: cover;
+ margin-right: 8px;
+}
+
+.ccp-text {
+  font-size: 12px;
+}
+
+.subtotal-cont, .total-cont {
+  display: flex;
+  justify-content: space-between;
+}
+
+.subtotal-text, .total-text {
+  font-size: .8rem;
+}
+
+.total-text {
+  font-weight: var(--thicker-font);
+}
+
+.cc-btn {
+  margin-top: 3rem;
+}
 
 @media screen and (min-width: 768px) {
   .bd-container,
@@ -1898,7 +1957,8 @@ td {
   .list-container,
   .hn-container,
   .sh-content,
-  .form-section  {
+  .form-section,
+  .checkout-container  {
     margin-left: auto;
     margin-right: auto;
   }

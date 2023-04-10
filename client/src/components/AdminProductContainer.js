@@ -3,6 +3,7 @@ import AdminProduct from './AdminProduct'
 import {Loading} from '.'
 import { useAppContext } from '../context/appContext'
 import { Link  } from 'react-router-dom'
+import PageBtnContainer from './PageBtnContainer'
 
 
 const AdminProductContainer = () => {
@@ -31,8 +32,9 @@ const AdminProductContainer = () => {
     <>
     <div className='pl-content'>
       {products.map((product) => {
-        return (<Link className='pl-link' key={product._id} ><AdminProduct key={product._id} {...product} /></Link>)
+        return (<div className='pl-link' key={product._id} ><AdminProduct key={product._id} {...product} /></div>)
       })}
+      
     </div>
     
     </>
