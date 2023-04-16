@@ -24,8 +24,9 @@ const AdminProducts = () => {
 
           
         </div>
+        {numOfPages > 1 && <PageBtnContainer />}
       </section>
-      {numOfPages > 1 && <PageBtnContainer />}
+      
     </>
   )
 }

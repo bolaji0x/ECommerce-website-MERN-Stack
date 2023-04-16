@@ -15,6 +15,8 @@ import Orders from './Orders'
 import OrderDetails from './OrderDetails'
 import BuyerProfile from './BuyerProfile'
 import CheckoutContainer from './CheckoutContainer'
+import PageBtnContainer from './PageBtnContainer'
+import SearchContainer from './SearchContainer'
 export { 
     Alert,
     FormRow,
@@ -32,5 +34,7 @@ export {
     Orders,
     OrderDetails,
     BuyerProfile,
-    CheckoutContainer
+    CheckoutContainer,
+    PageBtnContainer,
+    SearchContainer
 }

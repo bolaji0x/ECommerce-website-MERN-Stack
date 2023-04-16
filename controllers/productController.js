@@ -56,7 +56,7 @@ const getCurrentUserProduct = async (req, res) => {
     
     // setup pagination
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 8;
+    const limit = Number(req.query.limit) || 5;
     const skip = (page - 1) * limit;
 
     result = result.skip(skip).limit(limit);
@@ -70,15 +70,22 @@ const getCurrentUserProduct = async (req, res) => {
 
 
 const getAllProducts = async (req, res) => {
-  const { sort } = req.query
+  const { sort, search } = req.query
   
+  const queryObject = {
+    
+  };
+  if (search) {
+    queryObject.title = { $regex: search, $options: 'i' };
+  }
 
-  let result = Product.find({}).populate('createdBy', '_id username')
+  let result = Product.find(queryObject).populate('createdBy', '_id username')
+  
     if (sort === 'latest') {
         result = result.sort('-createdAt')
     }
     if (sort === 'oldest') {
-        result = result.sort('createdAt')
+      result = result.sort('createdAt')
     }
     
     // setup pagination
@@ -90,8 +97,9 @@ const getAllProducts = async (req, res) => {
 
     const products = await result;
 
-    const totalProducts = await Product.countDocuments();
-    res.status(StatusCodes.OK).json({ products, totalProducts })
+    const totalProducts = await Product.countDocuments(queryObject);
+    const numOfPages = Math.ceil(totalProducts / limit);
+    res.status(StatusCodes.OK).json({ products, totalProducts, numOfPages })
 
 }
 

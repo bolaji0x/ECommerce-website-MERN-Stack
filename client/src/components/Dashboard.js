@@ -6,11 +6,11 @@ import { useAppContext } from '../context/appContext';
 const Dashboard = () => {
     const {orders, totalOrders, totalProducts, getSellerOrders, getUserProducts} = useAppContext()
 
-    {/*
+    
     const totalOrderPrice = orders.reduce((total, item) => {
         return total + item.total;
     }, 0);
-    */}
+    
     const formatDate = (date) => {
         const month = String(new Date(date).getMonth() + 1).padStart(2, '0');
         const day = String(new Date(date).getDate()).padStart(2, '0');
@@ -34,7 +34,7 @@ const Dashboard = () => {
                     <button className='dollar-btn'>₦</button>
                     <div className='dlh-grid'>
                         <label className='dlh-name'>Total Sales</label>
-                        <p className='dlh-price'>₦ {/* {totalOrderPrice.toLocaleString()} */}</p>
+                        <p className='dlh-price'>₦  {totalOrderPrice.toLocaleString()} </p>
                     </div>
                 </div>
 

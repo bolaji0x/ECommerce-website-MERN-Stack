@@ -1,6 +1,8 @@
 import React from 'react'
-import { ProductContainer, Navbar } from '../../components'
+import { ProductContainer, Navbar, PageBtnContainer } from '../../components'
+import { useAppContext } from '../../context/appContext'
 const AllProducts = () => {
+  const { numOfPages } = useAppContext()
   return (
     <>
       <Navbar />
@@ -8,6 +10,7 @@ const AllProducts = () => {
         <h3 className='hp-title'>Home</h3>
         <ProductContainer />
       </div>
+      {numOfPages > 1 && <PageBtnContainer />}
     </>
   )
 }

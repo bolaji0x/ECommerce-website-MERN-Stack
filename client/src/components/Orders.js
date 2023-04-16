@@ -1,10 +1,9 @@
 import React from 'react'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 import { Link } from 'react-router-dom';
-import { useAppContext } from '../context/appContext';
 
-const Orders = ({_id, createdBy, total, orderItems, status, createdAt,}) => {
-  //const { total, user } = useAppContext()
+
+const Orders = ({_id, createdBy, total, status, createdAt,}) => {
 
   const formatDate = (date) => {
     const month = String(new Date(date).getMonth() + 1).padStart(2, '0');

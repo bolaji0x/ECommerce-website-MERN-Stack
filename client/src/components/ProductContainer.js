@@ -4,13 +4,13 @@ import {Loading} from '.'
 import { useAppContext } from '../context/appContext'
 
 const ProductContainer = () => {
-    const {isLoading, products, page, getProducts} = useAppContext()
+    const {isLoading, products, page, search, getProducts} = useAppContext()
 
 
     useEffect(() => {
       getProducts()
       // eslint-disable-next-line
-    }, [page])
+    }, [page, search])
   
     
     if(isLoading) {

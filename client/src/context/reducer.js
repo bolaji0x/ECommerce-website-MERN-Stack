@@ -4,6 +4,7 @@ import {
     CHANGE_PAGE,
     CLEAR_ALERT, 
     CLEAR_CART, 
+    CLEAR_FILTERS, 
     CLEAR_VALUES, 
     CREATE_ORDER_BEGIN, 
     CREATE_ORDER_ERROR, 
@@ -115,6 +116,14 @@ const reducer = (state, action) => {
       return { ...state, page: action.payload.page };
     }
 
+    if (action.type === CLEAR_FILTERS) {
+      return {
+        ...state,
+        search: '',
+        sort: 'latest',
+      };
+    }
+
     if (action.type === HANDLE_CHANGE) {
         return {
           ...state,
@@ -166,7 +175,8 @@ const reducer = (state, action) => {
         ...state,
         isLoading: false,
         products: action.payload.products,
-        totalProducts: action.payload.totalProducts
+        totalProducts: action.payload.totalProducts,
+        numOfPages: action.payload.numOfPages
       }
     }
 

@@ -5,6 +5,7 @@ import { BiX, BiCart, BiBox } from "react-icons/bi";
 import { useAppContext } from '../context/appContext';
 import items from './menu'
 import CartContainer from './CartContainer';
+import SearchContainer from './SearchContainer';
 const allCategories = ['all', ...new Set(items.map((item) => item.category))];
 const Navbar = () => {
     const { toggleSidebar, showSidebar, toggleCart, cart} = useAppContext()
@@ -23,10 +24,11 @@ const Navbar = () => {
         <header className='hn-header'>
             <nav className='hn-container'>
             
-                <Link className='hn-title-link' to='/'><h1 className='hn-title'>Konga</h1></Link>
+                <Link className='hn-title-link' to='/'><h1 className='hn-title'>Zetta</h1></Link>
+
                 <ul className='hn-list'>
                     <li><Link to='/signup' className='eachn-link'>Store Location</Link></li>
-                    <li><Link to='/signup' className='eachn-link'>Sell on Konga</Link></li>
+                    <li><Link to='/signup' className='eachn-link'>Sell on Zetta</Link></li>
                     <li><Link to='/signup' className='eachn-link'>Help</Link></li>
                     <li><Link to='/signup/buyer' className='eachn-link'>Login / Signup</Link></li>
                 </ul>
@@ -37,6 +39,7 @@ const Navbar = () => {
                 </button>
                 <CartContainer />
             </nav>
+            
             <div className='mobilenavbtn-cont'>
                 
                 <button onClick={toggleSidebar}>{!showSidebar ? <AiOutlineMenu className='hn-sidebarbtn' /> : <BiX className='hn-sidebarbtn hxbtn' />}</button>
@@ -49,7 +52,9 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+            
         </header>
+        <SearchContainer />
 
         <div className={!showSidebar ? 'sh-container' : 'sh-container showsh'}>
             <div className='sh-content'>

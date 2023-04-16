@@ -2,7 +2,7 @@ import { useAppContext } from '../context/appContext';
 import { Navigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 const ProtectedRoute = ({ children }) => {
-  const { user, buyer, userLoading } = useAppContext();
+  const { user, userLoading } = useAppContext();
 
   if (userLoading)
    return (

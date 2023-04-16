@@ -78,7 +78,7 @@ const createOrder = async (req, res) => {
 };
 
 const getAllOrders = async (req, res) => {
-  const orders = await Order.find({});
+  const orders = await Order.find({})
   res.status(StatusCodes.OK).json({ orders, totalOrders: orders.length });
 };
 
@@ -130,63 +130,28 @@ const getCurrentUserOrders = async (req, res) => {
 
 
 
-const getSellerOrders = async (req, res) => {
-  const products = await Product.find({ createdBy: req.user.userId }).select('_id');
-  const productIds = products.map((product) => product._id);
-  const orders = await Order.find({ 'orderItems.product': { $in: productIds } })
-    .populate(
-    {path: 'orderItems.product', 
-    populate: {
-    path: 'createdBy',
-    select: '_id username lastName'}, 
-    match: { createdBy: req.user.userId }
-  })
-  .populate({
-    path: 'createdBy',
-    select: '_id username lastName email'
-  });
-              
-  const filteredOrderItems = orders.reduce((acc, order) => {
-  const orderItems = order.orderItems.filter((item) => {
-    return item.product !== null;
-  });
-  acc.push(...orderItems);
-    return acc;
-  }, []);
-
-  let orderTotal = 0;
-
-  const formattedOrderItems = filteredOrderItems.map((item) => {
-    const total = item.price * item.amount;
-    orderTotal += total;
-    
-    return { ...item.toObject(), total };
-  });
-
-  const { _id, tax, status, shippingFee, createdBy} = orders[0];
-  res.status(StatusCodes.OK).json({ 
-    orders, 
-    totalOrders: filteredOrderItems.length, 
-    
-    
-  })
-
-  
-};
-
-
 
 /*
 const getSellerOrders = async (req, res) => {
-  const orderItems = await Order.find({ createdBy: req.user.userId }); // Filter order items by current user
-    const productIds = await Product.find({ createdBy: req.user.userId }).distinct('_id'); // Get IDs of products created by current user
-    const orderItemsForCurrentUser = orderItems.filter(item => productIds.includes(item.product.toString())); // Filter order items by product IDs created by current user
-    const totalOrders = orderItemsForCurrentUser.length;
-    return res.status(200).json({ orders: orderItemsForCurrentUser, totalOrders });
+  const orders = await Order.find({ 'product.createdBy': req.user._id }).populate('orderItems.product', '_id createdBy');
   
-}
-
+  res.status(StatusCodes.OK).json({ orders, count: orders.length });            
+};
 */
+
+const getSellerOrders = async (req, res) => {
+  const orders = await Order.find({ 'product.createdBy': req.user.userId }).populate('orderItems.product', '_id createdBy');
+  
+ 
+  orders.forEach((order) => {
+    order.orderItems = order.orderItems.filter((orderItem) => orderItem.product.createdBy.toString() === req.user.userId.toString());
+  });
+
+  const filteredOrders = orders.filter(order => order.orderItems.length > 0)
+
+  res.status(StatusCodes.OK).json({ orders: filteredOrders, totalOrders: filteredOrders.length });
+};
+
 
 const updateOrder = async (req, res) => {
   const { id: orderId } = req.params;

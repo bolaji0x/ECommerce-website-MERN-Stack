@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import AdminProduct from './AdminProduct'
 import {Loading} from '.'
 import { useAppContext } from '../context/appContext'
-import { Link  } from 'react-router-dom'
-import PageBtnContainer from './PageBtnContainer'
+
+
 
 
 const AdminProductContainer = () => {

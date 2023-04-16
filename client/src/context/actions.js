@@ -14,6 +14,7 @@ export const SETUP_BUYER_ERROR = 'SETUP_BUYER_ERROR'
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE'
 export const CLEAR_VALUES = 'CLEAR_VALUES'
+export const CLEAR_FILTERS = 'CLEAR_FILTERS';
 
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const TOGGLE_CART = 'TOGGLE_CART';

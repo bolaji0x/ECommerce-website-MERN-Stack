@@ -44,6 +44,7 @@ import {
   GET_SINGLEORDER_SUCCESS,
   GET_SINGLEORDER_ERROR,
   CHANGE_PAGE,
+  CLEAR_FILTERS,
   
  
 
@@ -66,6 +67,7 @@ const initialState = {
   price: 0,
   category: '',
   
+  search: '',
   sort: 'latest',
   page: 1,
   showSidebar: false,
@@ -148,6 +150,10 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CHANGE_PAGE, payload: { page } });
   };
 
+  const clearFilters = () => {
+    dispatch({ type: CLEAR_FILTERS });
+  };
+
   const setupUser = async ({currentUser, endPoint, alertText}) => {
     dispatch({ type: SETUP_USER_BEGIN })
     try {
@@ -191,24 +197,27 @@ const AppProvider = ({ children }) => {
   }
 
   const getProducts = async () => {
-    const {sort, page} = state
-    let url = `products/all?limit=${page*6}&sort=${sort}`
-
+    const {sort, page, search} = state
+    let url = `products/all?page=${page}&sort=${sort}`
+    if (search) {
+      url = url + `&search=${search}`;
+    }
     dispatch({ type: GET_PRODUCTS_BEGIN })
   
     try {
       const { data } = await axios.get(`/api/v1/${url}`)
-      const { products, totalProducts } = data
+      const { products, totalProducts, numOfPages } = data
       console.log(products)
       dispatch({
         type: GET_PRODUCTS_SUCCESS,
         payload: {
           products,
-          totalProducts
+          totalProducts,
+          numOfPages
         },
       })
     } catch (error) {
-        logoutUser();
+      console.log(error)
     }
     clearAlert()
   }
@@ -341,7 +350,7 @@ const AppProvider = ({ children }) => {
   }
 
   const getSellerOrders = async () => {
-    const {sort, page} = state
+    
     let url = `/orders/showSellerOrders`
 
     dispatch({ type: GET_ORDERS_BEGIN })
@@ -429,6 +438,7 @@ const AppProvider = ({ children }) => {
         handleChange,
         clearValues,
         changePage,
+        clearFilters,
         toggleSidebar,
         createProduct,
         getProducts,
