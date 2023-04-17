@@ -2,7 +2,6 @@ import Alert from './Alert'
 import FormRow from './FormRow'
 import FormRowSelect from './FormRowSelect'
 import Loading from './Loading'
-import TestImg from './TestImg'
 import AdminNavbar from './AdminNavbar'
 import Sidebar from './Sidebar'
 import Logo from './Logo'
@@ -14,7 +13,6 @@ import SingleProductDetail from './SingleProductDetail'
 import Orders from './Orders'
 import OrderDetails from './OrderDetails'
 import BuyerProfile from './BuyerProfile'
-import CheckoutContainer from './CheckoutContainer'
 import PageBtnContainer from './PageBtnContainer'
 import SearchContainer from './SearchContainer'
 export { 
@@ -22,7 +20,6 @@ export {
     FormRow,
     FormRowSelect,
     Loading,
-    TestImg,
     Navbar,
     Sidebar,
     Logo,
@@ -34,7 +31,6 @@ export {
     Orders,
     OrderDetails,
     BuyerProfile,
-    CheckoutContainer,
     PageBtnContainer,
     SearchContainer
 }
