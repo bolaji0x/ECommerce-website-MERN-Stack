@@ -101,7 +101,7 @@ const Register = () => {
           encType="multipart/form-data"  className='form-section' 
           onSubmit={handleSubmit}
         >
-        <h3 className='register-title'>{values.isMember ? 'Log In' : 'Sign up'}</h3>
+        <h3 className='register-title'>{values.isMember ? 'Log in as Seller' : 'Sign up as Seller'}</h3>
         {showAlert && <Alert />}
         {/* profile photo */}
         {!values.isMember && (

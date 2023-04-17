@@ -25,7 +25,7 @@ function App() {
           <Route path='/order/:id' element={<OrderDetails />} />
           
         </Route>
-        <Route path='/signup' element={<Register />} />
+        <Route path='/signup/seller' element={<Register />} />
         <Route path='/signup/buyer' element={<RegisterBuyer />} />
         <Route path='/shop' element={<AllProducts/>} />
         <Route path='/buyer' element={<Buyer />} />

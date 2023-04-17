@@ -101,7 +101,7 @@ const RegisterBuyer = () => {
           encType="multipart/form-data"  className='form-section' 
           onSubmit={handleSubmit}
         >
-        <h3 className='register-title'>{values.isMember ? 'Sign In to account' : 'Create an account'}</h3>
+        <h3 className='register-title'>{values.isMember ? 'Sign In as Buyer' : 'Create a Buyer account'}</h3>
         {showAlert && <Alert />}
         {/* profile photo */}
         {!values.isMember && (

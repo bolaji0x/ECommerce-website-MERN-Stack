@@ -27,9 +27,9 @@ const Navbar = () => {
                 <Link className='hn-title-link' to='/'><h1 className='hn-title'>Zetta</h1></Link>
 
                 <ul className='hn-list'>
-                    <li><Link to='/signup' className='eachn-link'>Store Location</Link></li>
-                    <li><Link to='/signup' className='eachn-link'>Sell on Zetta</Link></li>
-                    <li><Link to='/signup' className='eachn-link'>Help</Link></li>
+                    <li><Link to='/signup/seller' className='eachn-link'>Store Location</Link></li>
+                    <li><Link to='/signup/seller' className='eachn-link'>Sell on Zetta</Link></li>
+                    <li><Link to='/signup/seller' className='eachn-link'>Help</Link></li>
                     <li><Link to='/signup/buyer' className='eachn-link'>Login / Signup</Link></li>
                 </ul>
                 <button onClick={toggleCart} className='hb-btn'>

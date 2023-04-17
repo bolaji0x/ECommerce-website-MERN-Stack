@@ -3,10 +3,11 @@ import { useAppContext } from '../context/appContext'
 import { BiX } from 'react-icons/bi'
 import CartItem from './CartItem'
 import { PaystackButton } from 'react-paystack';
+import { Link } from 'react-router-dom';
 
 
 const CartContainer = () => {
-  const { showCart, toggleCart, cart, total, createOrder } = useAppContext()
+  const { showCart, toggleCart, cart, total, createOrder, user } = useAppContext()
   
   const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
   const amount = total;
@@ -92,9 +93,9 @@ const CartContainer = () => {
               <h2 className='subtotal'>Subtotal</h2>
               <h2 className='subtotal'>₦ {total}</h2>
             </div>          
-            
-            <PaystackButton {...componentProps} className='checkout-btn' /> 
           
+          {user && <PaystackButton {...componentProps} className='checkout-btn' />}
+          <div className='lbuyer-cont'>{!user && <Link to='/signup/buyer' className=' lbuyer-btn'>Login as user to checkout</Link>}</div>
           </footer>
     </aside>
   )
